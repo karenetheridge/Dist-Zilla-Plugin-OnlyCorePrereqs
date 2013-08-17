@@ -50,6 +50,8 @@ sub after_build
     {
         foreach my $prereq (keys %{ $prereqs->{$phase}{requires} || {} })
         {
+            $self->log_debug("checking $prereq");
+
             my $added_in = Module::CoreList->first_release($prereq);
 
             $self->log_fatal('detected a ' . $phase
