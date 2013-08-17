@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.002     2013-08-17 17:17:03Z (Karen Etheridge)
           - now respecting the deprecated_ok config
           - also check that the specific version of the prereq is available in
             the indicated perl version
