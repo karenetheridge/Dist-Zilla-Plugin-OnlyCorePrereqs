@@ -64,6 +64,17 @@ sub after_build
                 . $added_in . ': ' . $prereq)
                     if version->parse($added_in) > $self->starting_version;
 
+            my $has = $Module::CoreList::version{$self->starting_version}{$prereq};
+            $has = version->parse($has);    # XXX bug? cannot do this in one line, above
+            my $wanted = version->parse($prereqs->{$phase}{requires}{$prereq});
+
+            if ($has < $wanted)
+            {
+                $self->log_fatal('detected a ' . $phase . ' requires dependency on '
+                    . $prereq . ' ' . $wanted . ': perl ' . $self->starting_version
+                    . ' only has ' . $has);
+            }
+
             if (not $self->deprecated_ok)
             {
                 my $deprecated_in = Module::CoreList->deprecated_in($prereq);
