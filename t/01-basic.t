@@ -52,6 +52,7 @@ use Test::DZil;
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
+                    [ Prereqs => { perl => '5.010' } ],
                     [ Prereqs => TestRequires => { parent => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.010', phase => [ 'runtime' ] } ],
                 ),

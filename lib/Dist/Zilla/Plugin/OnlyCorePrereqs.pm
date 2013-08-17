@@ -50,6 +50,7 @@ sub after_build
     {
         foreach my $prereq (keys %{ $prereqs->{$phase}{requires} || {} })
         {
+            next if $prereq eq 'perl';
             $self->log_debug("checking $prereq");
 
             my $added_in = Module::CoreList->first_release($prereq);
