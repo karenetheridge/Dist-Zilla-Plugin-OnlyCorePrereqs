@@ -32,6 +32,11 @@ has starting_version => (
     default => '5.005',
 );
 
+has deprecated_ok => (
+    is => 'ro', isa => 'Bool',
+    default => 0,
+);
+
 sub mvp_multivalue_args { qw(phases) }
 sub mvp_aliases { { phase => 'phases' } }
 
@@ -55,6 +60,12 @@ sub after_build
                 . ' requires dependency that was not added to core until '
                 . $added_in . ': ' . $prereq)
                     if version->parse($added_in) > $self->starting_version;
+
+            my $deprecated_in = Module::CoreList->deprecated_in($prereq);
+            $self->log_fatal('detected a ' . $phase
+                . ' requires dependency that was deprecated from core in '
+                . $deprecated_in . ': '. $prereq)
+                    if $deprecated_in;
         }
     }
 }
@@ -94,6 +105,11 @@ information about phases.)
 Indicates the first perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
 checks.  Defaults to C<5.005>.
+
+=item * C<deprecated_ok>
+
+A boolean flag indicating whether it is considered acceptable to depend on a
+deprecated module. Defaults to 0.
 
 =back
 
