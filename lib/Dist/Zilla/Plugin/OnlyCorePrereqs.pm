@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Dist::Zilla::Plugin::OnlyCorePrereqs;
-# ABSTRACT: Check that no prerequsites are declared that are not part of core
+# ABSTRACT: Check that no prerequisites are declared that are not part of core
 
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
@@ -89,6 +89,8 @@ you have any declared prerequisites that are not shipped with perl.
 
 You can specify the first perl version to check against, and which
 prerequisite phase(s) are significant.
+
+=for Pod::Coverage after_build mvp_aliases mvp_multivalue_args
 
 =head1 OPTIONS
 
