@@ -64,11 +64,14 @@ sub after_build
                 . $added_in . ': ' . $prereq)
                     if version->parse($added_in) > $self->starting_version;
 
-            my $deprecated_in = Module::CoreList->deprecated_in($prereq);
-            $self->log_fatal('detected a ' . $phase
-                . ' requires dependency that was deprecated from core in '
-                . $deprecated_in . ': '. $prereq)
-                    if $deprecated_in;
+            if (not $self->deprecated_ok)
+            {
+                my $deprecated_in = Module::CoreList->deprecated_in($prereq);
+                $self->log_fatal('detected a ' . $phase
+                    . ' requires dependency that was deprecated from core in '
+                    . $deprecated_in . ': '. $prereq)
+                        if $deprecated_in;
+            }
         }
     }
 }
