@@ -6,7 +6,7 @@ package Dist::Zilla::Plugin::OnlyCorePrereqs;
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
-use Module::CoreList;
+use Module::CoreList 2.77;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use namespace::autoclean;
 
