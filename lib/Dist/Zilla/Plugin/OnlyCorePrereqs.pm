@@ -21,11 +21,8 @@ has phases => (
 has starting_version => (
     is => 'ro',
     isa => do {
-        my $version_string = subtype as 'Str',
-            where { LaxVersionStr->check( $_ ) },
-            message { 'starting_version must be in a valid version format - see version.pm' };
-        my $version = subtype as $version_string;
-        coerce $version, from $version_string, via { version->parse($_) };
+        my $version = subtype as class_type('version');
+        coerce $version, from LaxVersionStr, via { version->parse($_) };
         $version;
     },
     coerce => 1,
@@ -64,7 +61,7 @@ sub after_build
                 . $added_in . ': ' . $prereq)
                     if version->parse($added_in) > $self->starting_version;
 
-            my $has = $Module::CoreList::version{$self->starting_version}{$prereq};
+            my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
             $has = version->parse($has);    # XXX bug? cannot do this in one line, above
             my $wanted = version->parse($prereqs->{$phase}{requires}{$prereq});
 
