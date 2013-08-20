@@ -1,7 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
-          - new config option: "starting_version = current"
+          - new config settings for 'starting_version': 'current' and 'latest'
 
 0.002     2013-08-17 17:17:03Z (Karen Etheridge)
           - now respecting the deprecated_ok config

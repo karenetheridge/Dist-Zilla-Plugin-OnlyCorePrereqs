@@ -60,4 +60,30 @@ use Test::DZil;
     }
 }
 
+SKIP:
+{
+    # Carp is dual-lifed, and was upgraded to 1.30 in 5.019000 -> 5.019001
+    # The version of Module::CoreList that covers this change is 2.93
+    skip 'this test requires a very recent Module::CoreList', 1
+        unless Module::CoreList->VERSION ge '2.93';
+
+    my $tzil = Builder->from_config(
+        { dist_root => 't/corpus/basic' },
+        {
+            add_files => {
+                'source/dist.ini' => simple_ini(
+                    [ Prereqs => RuntimeRequires => { 'Carp' => '1.30' } ],
+                    [ OnlyCorePrereqs => { starting_version => 'latest' } ],
+                ),
+            },
+        },
+    );
+
+    is(
+        exception { $tzil->build },
+        undef,
+        'Carp is new enough in 5.019001 - plugin check succeeds',
+    );
+}
+
 done_testing;

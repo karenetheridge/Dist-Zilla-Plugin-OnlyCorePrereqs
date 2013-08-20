@@ -44,7 +44,16 @@ around BUILDARGS => sub
     my $self = shift;
 
     my $args = $self->$orig(@_);
-    $args->{starting_version} = $^V if ($args->{starting_version} // '') eq 'current';
+
+    if (($args->{starting_version} // '') eq 'current')
+    {
+        $args->{starting_version} = $^V;
+    }
+    elsif (($args->{starting_version} // '') eq 'latest')
+    {
+        my $latest = (reverse sort keys %Module::CoreList::released)[0];
+        $args->{starting_version} = version->parse($latest);
+    }
 
     $args;
 };
@@ -128,14 +137,30 @@ Indicates a phase to check against. Can be provided more than once; defaults
 to C<runtime> and C<test>.  (See L<Dist::Zilla::Plugin::Prereqs> for more
 information about phases.)
 
+Remember that you can use different settings for different phases by employing
+this plugin twice, with different names.
+
 =item * C<starting_version>
 
 Indicates the first perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
 checks.  Defaults to C<5.005>.
 
-The value C<current> is treated specially, to indicate the version of Perl
-that you are currently running with.
+There are two special values supported:
+
+=begin :list
+
+=item * C<current> - indicates the version of Perl that you are currently running with
+
+=item * C<latest> - indicates the most recent release of Perl
+
+=end :list
+
+(Note: if you wish to check against B<all> changes in core up to the very
+latest Perl release, or you should upgrade your L<Module::CoreList> installation.
+You can guarantee you are always running the latest version with
+L<Dist::Zilla::Plugin::PromptIfStale>. This module is also the mechanism used for
+determining the version of the latest Perl release.)
 
 =item * C<deprecated_ok>
 
