@@ -3,6 +3,7 @@ use warnings;
 package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # ABSTRACT: Check that no prerequisites are declared that are not part of core
 
+use 5.010;
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
@@ -36,6 +37,17 @@ has deprecated_ok => (
 
 sub mvp_multivalue_args { qw(phases) }
 sub mvp_aliases { { phase => 'phases' } }
+
+around BUILDARGS => sub
+{
+    my $orig = shift;
+    my $self = shift;
+
+    my $args = $self->$orig(@_);
+    $args->{starting_version} = $^V if ($args->{starting_version} // '') eq 'current';
+
+    $args;
+};
 
 sub after_build
 {
@@ -121,6 +133,9 @@ information about phases.)
 Indicates the first perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
 checks.  Defaults to C<5.005>.
+
+The value C<current> is treated specially, to indicate the version of Perl
+that you are currently running with.
 
 =item * C<deprecated_ok>
 
