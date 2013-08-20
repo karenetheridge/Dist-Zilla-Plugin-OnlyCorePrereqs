@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.003     2013-08-20 06:09:58Z (Karen Etheridge)
           - new config settings for 'starting_version': 'current' and 'latest'
 
 0.002     2013-08-17 17:17:03Z (Karen Etheridge)

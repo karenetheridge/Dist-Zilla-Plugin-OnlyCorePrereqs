@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.002
+version 0.003
 
 # SYNOPSIS
 
@@ -29,11 +29,25 @@ prerequisite phase(s) are significant.
     to `runtime` and `test`.  (See [Dist::Zilla::Plugin::Prereqs](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::Prereqs) for more
     information about phases.)
 
+    Remember that you can use different settings for different phases by employing
+    this plugin twice, with different names.
+
 - `starting_version`
 
     Indicates the first perl version that should be checked against; any versions
     earlier than this are not considered significant for the purposes of core
     checks.  Defaults to `5.005`.
+
+    There are two special values supported:
+
+    - `current` - indicates the version of Perl that you are currently running with
+    - `latest` - indicates the most recent release of Perl
+
+    (Note: if you wish to check against __all__ changes in core up to the very
+    latest Perl release, or you should upgrade your [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) installation.
+    You can guarantee you are always running the latest version with
+    [Dist::Zilla::Plugin::PromptIfStale](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::PromptIfStale). This module is also the mechanism used for
+    determining the version of the latest Perl release.)
 
 - `deprecated_ok`
 
