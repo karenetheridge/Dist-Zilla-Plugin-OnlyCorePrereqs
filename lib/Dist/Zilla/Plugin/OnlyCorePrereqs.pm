@@ -51,6 +51,7 @@ around BUILDARGS => sub
     }
     elsif (($args->{starting_version} // '') eq 'latest')
     {
+        # needs to be two clauses because of version.pm: RT#87983
         my $latest = (reverse sort keys %Module::CoreList::released)[0];
         $args->{starting_version} = version->parse($latest);
     }
@@ -83,7 +84,7 @@ sub after_build
                     if version->parse($added_in) > $self->starting_version;
 
             my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
-            $has = version->parse($has);    # XXX bug? cannot do this in one line, above
+            $has = version->parse($has);    # version.pm XS hates tie() - RT#87983
             my $wanted = version->parse($prereqs->{$phase}{requires}{$prereq});
 
             if ($has < $wanted)
