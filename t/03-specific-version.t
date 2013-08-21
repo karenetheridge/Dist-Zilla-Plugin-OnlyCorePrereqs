@@ -86,4 +86,24 @@ SKIP:
     );
 }
 
+{
+    my $tzil = Builder->from_config(
+        { dist_root => 't/corpus/basic' },
+        {
+            add_files => {
+                'source/dist.ini' => simple_ini(
+                    [ Prereqs => RuntimeRequires => { 'File::stat' => '0' } ],
+                    [ OnlyCorePrereqs => ],
+                ),
+            },
+        },
+    );
+
+    is(
+        exception { $tzil->build },
+        undef,
+        'File::stat is undef in 5.005, but good enough - plugin check succeeds',
+    );
+}
+
 done_testing;
