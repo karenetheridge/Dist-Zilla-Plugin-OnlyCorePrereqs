@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.004     2013-08-21 19:19:54Z (Karen Etheridge)
           - fix bad regexp causing test failure on perls < 5.019
 
 0.003     2013-08-20 06:09:58Z (Karen Etheridge)
