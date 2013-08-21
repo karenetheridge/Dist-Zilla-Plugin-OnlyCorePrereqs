@@ -46,7 +46,7 @@ use Test::DZil;
     {
         like(
             exception { $tzil->build },
-            qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \d\.\d+\E/,
+            qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/,
             'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
         );
     }
