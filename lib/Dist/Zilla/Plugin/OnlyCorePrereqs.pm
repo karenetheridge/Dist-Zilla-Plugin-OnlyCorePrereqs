@@ -144,9 +144,9 @@ In your F<dist.ini>:
 =head1 DESCRIPTION
 
 C<[OnlyCorePrereqs]> is a L<Dist::Zilla> plugin that checks at build time if
-you have any declared prerequisites that are not shipped with perl.
+you have any declared prerequisites that are not shipped with Perl.
 
-You can specify the first perl version to check against, and which
+You can specify the first Perl version to check against, and which
 prerequisite phase(s) are significant.
 
 =for Pod::Coverage after_build mvp_aliases mvp_multivalue_args
@@ -166,7 +166,7 @@ this plugin twice, with different names.
 
 =item * C<starting_version>
 
-Indicates the first perl version that should be checked against; any versions
+Indicates the first Perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
 checks.  Defaults to C<5.005>.
 
@@ -176,14 +176,14 @@ There are two special values supported:
 
 =item * C<current> - indicates the version of Perl that you are currently running with
 
-=item * C<latest> - indicates the most recent release of Perl
+=item * C<latest> - indicates the most recent (stable or development) release of Perl
 
 =end :list
 
 (Note: if you wish to check against B<all> changes in core up to the very
-latest Perl release, or you should upgrade your L<Module::CoreList> installation.
+latest Perl release, you should upgrade your L<Module::CoreList> installation.
 You can guarantee you are always running the latest version with
-L<Dist::Zilla::Plugin::PromptIfStale>. This module is also the mechanism used for
+L<Dist::Zilla::Plugin::PromptIfStale>. L<Module::CoreList> is also the mechanism used for
 determining the version of the latest Perl release.)
 
 =item * C<deprecated_ok>
