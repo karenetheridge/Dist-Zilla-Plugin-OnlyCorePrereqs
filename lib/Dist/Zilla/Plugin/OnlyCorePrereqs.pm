@@ -65,6 +65,11 @@ sub after_build
 
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
+    my @non_core;
+    my @not_yet;
+    my @wanted;
+    my @deprecated;
+
     foreach my $phase ($self->phases)
     {
         foreach my $prereq (keys %{ $prereqs->{$phase}{requires} || {} })
@@ -74,14 +79,17 @@ sub after_build
 
             my $added_in = Module::CoreList->first_release($prereq);
 
-            $self->log_fatal('detected a ' . $phase
-                . ' requires dependency that is not in core: ' . $prereq)
-                    if not defined $added_in;
+            if (not defined $added_in)
+            {
+                push @non_core, [$phase, $prereq];
+                next;
+            }
 
-            $self->log_fatal('detected a ' . $phase
-                . ' requires dependency that was not added to core until '
-                . $added_in . ': ' . $prereq)
-                    if version->parse($added_in) > $self->starting_version;
+            if (version->parse($added_in) > $self->starting_version)
+            {
+                push @not_yet, [$phase, $added_in, $prereq];
+                next;
+            }
 
             my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
             $has = version->parse($has);    # version.pm XS hates tie() - RT#87983
@@ -89,21 +97,36 @@ sub after_build
 
             if ($has < $wanted)
             {
-                $self->log_fatal('detected a ' . $phase . ' requires dependency on '
-                    . $prereq . ' ' . $wanted . ': perl ' . $self->starting_version
-                    . ' only has ' . $has);
+                push @wanted, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version, $has];
+                next;
             }
 
             if (not $self->deprecated_ok)
             {
                 my $deprecated_in = Module::CoreList->deprecated_in($prereq);
-                $self->log_fatal('detected a ' . $phase
-                    . ' requires dependency that was deprecated from core in '
-                    . $deprecated_in . ': '. $prereq)
-                        if $deprecated_in;
+                if ($deprecated_in)
+                {
+                    push @deprecated, [$phase, $deprecated_in, $prereq];
+                    next;
+                }
             }
         }
     }
+
+    $self->log(['detected a %s requires dependency that is not in core: %s', @$_])
+        for @non_core;
+
+    $self->log(['detected a %s requires dependency that was not added to core until %s: %s', @$_])
+        for @not_yet;
+
+    $self->log(['detected a %s requires dependency on %s %s: perl %s only has %s', @$_])
+        for @wanted;
+
+    $self->log(['detected a %s requires dependency that was deprecated from core in %s: %s', @$_])
+        for @deprecated;
+
+    $self->log_fatal( "aborting build due to invalid dependencies" )
+        if @non_core || @not_yet || @wanted || @deprecated;
 }
 
 __PACKAGE__->meta->make_immutable;
