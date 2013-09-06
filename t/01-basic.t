@@ -21,7 +21,7 @@ use Test::DZil;
 
     like(
         exception { $tzil->build },
-        qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency that is not in core: Moose\E/,
+        qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
         'Moose is not in core - plugin check fails',
     );
 }
@@ -41,7 +41,7 @@ use Test::DZil;
 
     like(
         exception { $tzil->build },
-        qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.010001: parent\E/,
+        qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
         'parent was not in core in 5.10 - plugin check fails',
     );
 }

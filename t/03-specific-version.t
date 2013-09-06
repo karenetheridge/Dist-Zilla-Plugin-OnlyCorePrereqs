@@ -21,9 +21,16 @@ use Test::DZil;
 
     like(
         exception { $tzil->build },
-        qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012\E/,
-        'HTTP::Tiny was in core in 5.014, but only at version 0.012 - plugin check fails',
+        qr/\Q[OnlyCorePrereqs] aborting\E/,
+        'build aborted'
     );
+
+    my $msgs = $tzil->log_messages;
+
+    ok(grep({/\Q[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012\E/} @$msgs),
+        'HTTP::Tiny was in core in 5.014, but only at version 0.012 - plugin check fails',
+    ) or diag explain $msgs;
+
 }
 
 {
@@ -46,9 +53,16 @@ use Test::DZil;
     {
         like(
             exception { $tzil->build },
-            qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/,
+            qr/\Q[OnlyCorePrereqs] aborting\E/,
+            'build aborted'
+        );
+
+        my $msgs = $tzil->log_messages;
+
+        ok(grep({/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/} @$msgs),
             'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
         );
+
     }
     else
     {
