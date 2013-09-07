@@ -147,6 +147,8 @@ you have any declared prerequisites that are not shipped with Perl.
 You can specify the first Perl version to check against, and which
 prerequisite phase(s) are significant.
 
+If the check fails, the build is aborted.
+
 =for Pod::Coverage after_build mvp_aliases mvp_multivalue_args
 
 =head1 OPTIONS
