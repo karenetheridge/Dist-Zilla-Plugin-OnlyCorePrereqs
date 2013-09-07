@@ -21,7 +21,13 @@ use Test::DZil;
 
     like(
         exception { $tzil->build },
-        qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency that was deprecated from core in 5.011: Switch\E/,
+        qr/\Q[OnlyCorePrereqs] aborting\E/,
+        'build aborted'
+    );
+
+    my $msgs = $tzil->log_messages;
+
+    ok(grep({/\Q[OnlyCorePrereqs] detected a runtime requires dependency that was deprecated from core in 5.011: Switch\E/} @$msgs),
         'Switch has been deprecated',
     );
 }
