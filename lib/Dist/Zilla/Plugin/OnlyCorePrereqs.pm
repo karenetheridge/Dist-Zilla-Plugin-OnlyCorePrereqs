@@ -70,7 +70,7 @@ sub after_build
 
     foreach my $phase ($self->phases)
     {
-        foreach my $prereq (keys %{ $prereqs->{$phase}{requires} || {} })
+        foreach my $prereq (keys %{ $prereqs->{$phase}{requires} // {} })
         {
             next if $prereq eq 'perl';
             $self->log_debug("checking $prereq");
