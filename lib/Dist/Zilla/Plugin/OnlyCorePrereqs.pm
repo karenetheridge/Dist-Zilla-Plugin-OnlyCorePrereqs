@@ -65,10 +65,8 @@ sub after_build
 
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
-    my @non_core;
-    my @not_yet;
-    my @wanted;
-    my @deprecated;
+    # we build up a lists of all errors found
+    my (@non_core, @not_yet, @wanted, @deprecated);
 
     foreach my $phase ($self->phases)
     {
@@ -125,7 +123,7 @@ sub after_build
     $self->log(['detected a %s requires dependency that was deprecated from core in %s: %s', @$_])
         for @deprecated;
 
-    $self->log_fatal( "aborting build due to invalid dependencies" )
+    $self->log_fatal('aborting build due to invalid dependencies')
         if @non_core || @not_yet || @wanted || @deprecated;
 }
 
