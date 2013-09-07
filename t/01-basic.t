@@ -4,6 +4,7 @@ use warnings FATAL => 'all';
 use Test::More;
 use Test::Warnings;
 use Test::Fatal;
+use Test::Deep;
 use Test::DZil;
 
 {
@@ -22,6 +23,12 @@ use Test::DZil;
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
+        'build aborted',
+    );
+
+    cmp_deeply(
+        $tzil->log_messages,
+        supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that is not in core: Moose'),
         'Moose is not in core - plugin check fails',
     );
 }
@@ -42,6 +49,12 @@ use Test::DZil;
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
+        'build aborted'
+    );
+
+    cmp_deeply(
+        $tzil->log_messages,
+        supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.010001: parent'),
         'parent was not in core in 5.10 - plugin check fails',
     );
 }
@@ -63,6 +76,11 @@ use Test::DZil;
     is(
         exception { $tzil->build },
         undef,
+        'build is not aborted',
+    );
+
+    ok(
+        (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
         'non-core modules are permitted in the test phase',
     );
 }
