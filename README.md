@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.004
+version 0.005
 
 # SYNOPSIS
 
@@ -16,10 +16,12 @@ In your `dist.ini`:
 # DESCRIPTION
 
 `[OnlyCorePrereqs]` is a [Dist::Zilla](http://search.cpan.org/perldoc?Dist::Zilla) plugin that checks at build time if
-you have any declared prerequisites that are not shipped with perl.
+you have any declared prerequisites that are not shipped with Perl.
 
-You can specify the first perl version to check against, and which
+You can specify the first Perl version to check against, and which
 prerequisite phase(s) are significant.
+
+If the check fails, the build is aborted.
 
 # OPTIONS
 
@@ -34,19 +36,19 @@ prerequisite phase(s) are significant.
 
 - `starting_version`
 
-    Indicates the first perl version that should be checked against; any versions
+    Indicates the first Perl version that should be checked against; any versions
     earlier than this are not considered significant for the purposes of core
     checks.  Defaults to `5.005`.
 
     There are two special values supported:
 
     - `current` - indicates the version of Perl that you are currently running with
-    - `latest` - indicates the most recent release of Perl
+    - `latest` - indicates the most recent (stable or development) release of Perl
 
     (Note: if you wish to check against __all__ changes in core up to the very
-    latest Perl release, or you should upgrade your [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) installation.
+    latest Perl release, you should upgrade your [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) installation.
     You can guarantee you are always running the latest version with
-    [Dist::Zilla::Plugin::PromptIfStale](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::PromptIfStale). This module is also the mechanism used for
+    [Dist::Zilla::Plugin::PromptIfStale](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::PromptIfStale). [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) is also the mechanism used for
     determining the version of the latest Perl release.)
 
 - `deprecated_ok`
@@ -70,3 +72,7 @@ This software is copyright (c) 2013 by Karen Etheridge.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+# CONTRIBUTOR
+
+David Golden <dagolden@cpan.org>
