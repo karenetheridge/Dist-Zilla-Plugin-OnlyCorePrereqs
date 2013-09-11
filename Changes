@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - new "check_module_versions" option
 
 0.005     2013-09-07 00:50:54Z (Karen Etheridge)
           - all invalid dependencies are now reported, instead of only the
