@@ -4,5 +4,6 @@
 /test-mydeps-*
 /nytprof*
 /Dist-Zilla-Plugin-OnlyCorePrereqs-*
+/tmp/
 /todo.txt
 /todo/
