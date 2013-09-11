@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.005
+version 0.006
 
 # SYNOPSIS
 
@@ -55,6 +55,15 @@ If the check fails, the build is aborted.
 
     A boolean flag indicating whether it is considered acceptable to depend on a
     deprecated module. Defaults to 0.
+
+- `check_module_versions`
+
+    A boolean flag indicating whether the specific module version available in the
+    `starting_version` of perl should also be checked.  Defaults to 1.
+
+    (For example, a prerequisite of [Test::More](http://search.cpan.org/perldoc?Test::More) 0.88  at `starting_version`
+    5.010 would fail with `check_module_versions` set, as the version of
+    [Test::More](http://search.cpan.org/perldoc?Test::More) that shipped with that version of perl was only 0.72.
 
 # SUPPORT
 
