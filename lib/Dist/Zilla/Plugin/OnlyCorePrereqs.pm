@@ -66,7 +66,7 @@ sub after_build
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
     # we build up a lists of all errors found
-    my (@non_core, @not_yet, @wanted, @deprecated);
+    my (@non_core, @not_yet, @insufficient_version, @deprecated);
 
     foreach my $phase ($self->phases)
     {
@@ -95,7 +95,7 @@ sub after_build
 
             if ($has < $wanted)
             {
-                push @wanted, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version, $has];
+                push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version, $has];
                 next;
             }
 
@@ -118,13 +118,13 @@ sub after_build
         for @not_yet;
 
     $self->log(['detected a %s requires dependency on %s %s: perl %s only has %s', @$_])
-        for @wanted;
+        for @insufficient_version;
 
     $self->log(['detected a %s requires dependency that was deprecated from core in %s: %s', @$_])
         for @deprecated;
 
     $self->log_fatal('aborting build due to invalid dependencies')
-        if @non_core || @not_yet || @wanted || @deprecated;
+        if @non_core || @not_yet || @insufficient_version || @deprecated;
 }
 
 __PACKAGE__->meta->make_immutable;
