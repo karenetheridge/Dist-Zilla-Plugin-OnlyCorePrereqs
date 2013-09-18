@@ -57,11 +57,17 @@ use Test::DZil;
             'build aborted'
         );
 
+        # unexplained issue:
+        # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
+
+        # this dist requires 5.010, so we know feature is available at *some*
+        # version (it first appeared in 5.9.3)
+
         cmp_deeply(
             $tzil->log_messages,
             supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/)),
             'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
-        );
+        ) or diag('got messages: ', explain($tzil->log_messages));
     }
     else
     {
