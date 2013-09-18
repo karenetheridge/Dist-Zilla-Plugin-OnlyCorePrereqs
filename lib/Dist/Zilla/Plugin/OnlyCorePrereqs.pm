@@ -256,6 +256,8 @@ shortly?)
 
 =item * C<check_dual_life_versions>
 
+=for stopwords lifed blead
+
 Like C<check_module_versions>, but only applies to modules that are
 dual-lifed (are distributed on the CPAN as well as in core). Defaults to 1.
 This is useful to set if you don't want to fail if you require a core module
