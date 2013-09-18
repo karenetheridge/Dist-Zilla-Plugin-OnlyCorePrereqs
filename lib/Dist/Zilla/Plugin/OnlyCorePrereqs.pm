@@ -9,6 +9,7 @@ with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
 use Module::CoreList 2.77;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
+use version;
 use namespace::autoclean;
 
 has phases => (
