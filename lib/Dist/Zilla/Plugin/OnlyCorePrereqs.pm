@@ -10,6 +10,9 @@ use Moose::Util::TypeConstraints;
 use Module::CoreList 2.77;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
+use HTTP::Tiny;
+use Encode;
+use JSON;
 use namespace::autoclean;
 
 has phases => (
@@ -37,6 +40,11 @@ has deprecated_ok => (
 );
 
 has check_module_versions => (
+    is => 'ro', isa => 'Bool',
+    default => 1,
+);
+
+has check_dual_life_versions => (
     is => 'ro', isa => 'Bool',
     default => 1,
 );
@@ -95,7 +103,8 @@ sub after_build
                 next;
             }
 
-            if ($self->check_module_versions)
+            if ($self->check_module_versions
+                and ($self->check_dual_life_versions or not $self->_is_dual($prereq)))
             {
                 my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
                 $has = version->parse($has);    # version.pm XS hates tie() - RT#87983
@@ -134,6 +143,44 @@ sub after_build
 
     $self->log_fatal('aborting build due to invalid dependencies')
         if @non_core || @not_yet || @insufficient_version || @deprecated;
+}
+
+# this will get easier if we can just ask MCL for this information, rather
+# than guessing.
+sub _is_dual
+{
+    my ($self, $module) = @_;
+
+    my $upstream = $Module::CoreList::upstream{$module};
+    $self->log_debug($module . ' is upstream=' . ($upstream // 'undef'));
+    return 1 if $upstream eq 'cpan' or $upstream eq 'first-come';
+
+    # if upstream=blead, we can't be sure if it's actually dual or not, so for
+    # now we'll have to ask the index and hope that there's been a release to
+    # cpan since the last stable perl release.
+    my $dist_name = $self->_indexed_dist($module);
+    $self->log_debug($module . ' is indexed in the ' . ($dist_name // 'undef') . ' dist');
+    return 0 if not defined $dist_name or $dist_name eq 'perl';
+    return 1;
+}
+
+
+# if only the index were cached somewhere locally that I could query...
+sub _indexed_dist
+{
+    my ($self, $module) = @_;
+
+    my $res = HTTP::Tiny->new->get("http://cpanidx.org/cpanidx/json/mod/$module");
+    $self->log_debug('could not query the index?'), return undef if not $res->{success};
+
+    # JSON wants UTF-8 bytestreams, so we need to re-encode no matter what
+    # encoding we got. -- rjbs, 2011-08-18 (in Dist::Zilla)
+    my $json_octets = Encode::encode_utf8($res->{content});
+    my $payload = JSON::->new->decode($json_octets);
+
+    $self->log_debug('invalid payload returned?'), return undef unless $payload;
+    $self->log_debug($module . ' not indexed'), return undef if not defined $payload->[0]{dist_name};
+    version->parse($payload->[0]{dist_name});
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -203,10 +250,27 @@ deprecated module. Defaults to 0.
 =item * C<check_module_versions>
 
 A boolean flag indicating whether the specific module version available in the
-C<starting_version> of perl should also be checked.  Defaults to 1.
+C<starting_version> of perl should also be checked.  Defaults to 1. (perhaps
+not that useful, compared to check_dual_life_versions - might be removed
+shortly?)
 
-(For example, a prerequisite of L<Test::More> 0.88  at C<starting_version>
-5.010 would fail with C<check_module_versions> set, as the version of
+=item * C<check_dual_life_versions>
+
+Like C<check_module_versions>, but only applies to modules that are
+dual-lifed (are distributed on the CPAN as well as in core). Defaults to 1.
+This is useful to set if you don't want to fail if you require a core module
+that the user can still upgrade via the CPAN, but do want to fail if the
+module is B<only> available in core.
+
+Note that at the moment, the "is this module dual-lifed?" heuristic is not
+100% reliable, as we may need to interrogate the PAUSE index to see if the
+module is available outside of perl -- which can generate a false negative if
+the module is upstream-blead and there was a recent release of a stable perl.
+This is hopefully going to be rectified soon (when I add the necessary feature
+to L<Module::CoreList>).
+
+(For example, a prerequisite of L<Test::More> 0.88 at C<starting_version>
+5.010 would fail with C<check_module_versions> or C<check_dual_life_versions> set, as the version of
 L<Test::More> that shipped with that version of perl was only 0.72.
 
 =back
