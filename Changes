@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - fix issues with check_dual_life_version feature
 
 0.007     2013-09-18 00:41:19Z (Karen Etheridge)
           - new "check_dual_life_versions" option

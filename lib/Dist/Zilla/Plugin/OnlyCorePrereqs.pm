@@ -153,7 +153,7 @@ sub _is_dual
 
     my $upstream = $Module::CoreList::upstream{$module};
     $self->log_debug($module . ' is upstream=' . ($upstream // 'undef'));
-    return 1 if $upstream eq 'cpan' or $upstream eq 'first-come';
+    return 1 if defined $upstream and ($upstream eq 'cpan' or $upstream eq 'first-come');
 
     # if upstream=blead, we can't be sure if it's actually dual or not, so for
     # now we'll have to ask the index and hope that there's been a release to
@@ -180,7 +180,7 @@ sub _indexed_dist
 
     $self->log_debug('invalid payload returned?'), return undef unless $payload;
     $self->log_debug($module . ' not indexed'), return undef if not defined $payload->[0]{dist_name};
-    version->parse($payload->[0]{dist_name});
+    return $payload->[0]{dist_name};
 }
 
 __PACKAGE__->meta->make_immutable;
