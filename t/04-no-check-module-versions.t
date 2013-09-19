@@ -2,6 +2,9 @@ use strict;
 use warnings FATAL => 'all';
 
 use Test::More;
+
+plan skip_all => 'the check_module_versions option has been removed';
+
 use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Fatal;
 use Test::Deep;

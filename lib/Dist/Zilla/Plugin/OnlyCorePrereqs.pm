@@ -39,11 +39,6 @@ has deprecated_ok => (
     default => 0,
 );
 
-has check_module_versions => (
-    is => 'ro', isa => 'Bool',
-    default => 1,
-);
-
 has check_dual_life_versions => (
     is => 'ro', isa => 'Bool',
     default => 1,
@@ -103,8 +98,7 @@ sub after_build
                 next;
             }
 
-            if ($self->check_module_versions
-                and ($self->check_dual_life_versions or not $self->_is_dual($prereq)))
+            if ($self->check_dual_life_versions or not $self->_is_dual($prereq))
             {
                 my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
                 $has = version->parse($has);    # version.pm XS hates tie() - RT#87983
@@ -247,20 +241,15 @@ determining the version of the latest Perl release.)
 A boolean flag indicating whether it is considered acceptable to depend on a
 deprecated module. Defaults to 0.
 
-=item * C<check_module_versions>
-
-A boolean flag indicating whether the specific module version available in the
-C<starting_version> of perl should also be checked.  Defaults to 1. (perhaps
-not that useful, compared to check_dual_life_versions - might be removed
-shortly?)
-
 =item * C<check_dual_life_versions>
 
 =for stopwords lifed blead
 
-Like C<check_module_versions>, but only applies to modules that are
-dual-lifed (are distributed on the CPAN as well as in core). Defaults to 1.
-This is useful to set if you don't want to fail if you require a core module
+A boolean flag indicating whether the specific module version available in the
+C<starting_version> of perl be checked (even) if the module is dual-lifed.
+Defaults to 1.
+
+This is useful to B<unset> if you don't want to fail if you require a core module
 that the user can still upgrade via the CPAN, but do want to fail if the
 module is B<only> available in core.
 
@@ -272,8 +261,9 @@ This is hopefully going to be rectified soon (when I add the necessary feature
 to L<Module::CoreList>).
 
 (For example, a prerequisite of L<Test::More> 0.88 at C<starting_version>
-5.010 would fail with C<check_module_versions> or C<check_dual_life_versions> set, as the version of
-L<Test::More> that shipped with that version of perl was only 0.72.
+5.010 would fail with C<check_dual_life_versions = 1>, as the version of
+L<Test::More> that shipped with that version of perl was only 0.72,
+but not fail if C<check_dual_life_versions = 0>.
 
 =back
 

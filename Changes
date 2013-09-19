@@ -2,12 +2,13 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
           - fix issues with check_dual_life_version feature
+          - remove "check_module_version" option
 
 0.007     2013-09-18 00:41:19Z (Karen Etheridge)
           - new "check_dual_life_versions" option
 
 0.006     2013-09-11 04:03:33Z (Karen Etheridge)
-          - new "check_module_versions" option
+          - new "check_module_versions" option (removed in 0.008)
 
 0.005     2013-09-07 00:50:54Z (Karen Etheridge)
           - all invalid dependencies are now reported, instead of only the
