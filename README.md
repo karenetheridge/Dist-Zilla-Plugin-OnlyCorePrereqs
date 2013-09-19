@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.007
+version 0.008
 
 # SYNOPSIS
 
@@ -56,18 +56,13 @@ If the check fails, the build is aborted.
     A boolean flag indicating whether it is considered acceptable to depend on a
     deprecated module. Defaults to 0.
 
-- `check_module_versions`
-
-    A boolean flag indicating whether the specific module version available in the
-    `starting_version` of perl should also be checked.  Defaults to 1. (perhaps
-    not that useful, compared to check\_dual\_life\_versions - might be removed
-    shortly?)
-
 - `check_dual_life_versions`
 
-    Like `check_module_versions`, but only applies to modules that are
-    dual-lifed (are distributed on the CPAN as well as in core). Defaults to 1.
-    This is useful to set if you don't want to fail if you require a core module
+    A boolean flag indicating whether the specific module version available in the
+    `starting_version` of perl be checked (even) if the module is dual-lifed.
+    Defaults to 1.
+
+    This is useful to __unset__ if you don't want to fail if you require a core module
     that the user can still upgrade via the CPAN, but do want to fail if the
     module is __only__ available in core.
 
@@ -79,8 +74,9 @@ If the check fails, the build is aborted.
     to [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList)).
 
     (For example, a prerequisite of [Test::More](http://search.cpan.org/perldoc?Test::More) 0.88 at `starting_version`
-    5.010 would fail with `check_module_versions` or `check_dual_life_versions` set, as the version of
-    [Test::More](http://search.cpan.org/perldoc?Test::More) that shipped with that version of perl was only 0.72.
+    5.010 would fail with `check_dual_life_versions = 1`, as the version of
+    [Test::More](http://search.cpan.org/perldoc?Test::More) that shipped with that version of perl was only 0.72,
+    but not fail if `check_dual_life_versions = 0`.
 
 # SUPPORT
 

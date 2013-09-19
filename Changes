@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.008     2013-09-19 03:29:22Z (Karen Etheridge)
           - fix issues with check_dual_life_version feature
           - remove "check_module_version" option
 
