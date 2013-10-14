@@ -6,6 +6,7 @@ use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
+use Module::CoreList;
 
 {
     my $tzil = Builder->from_config(
@@ -57,9 +58,6 @@ use Test::DZil;
             'build aborted'
         );
 
-        # unexplained issue:
-        # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
-
         # this dist requires 5.010, so we know feature is available at *some*
         # version (it first appeared in 5.9.3)
 
@@ -67,7 +65,14 @@ use Test::DZil;
             $tzil->log_messages,
             supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/)),
             'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
-        ) or diag('got messages: ', explain($tzil->log_messages));
+        ) or do {
+            # we have some odd failing reports:
+            # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
+            # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
+            diag('got messages: ', explain($tzil->log_messages));
+            my $version = version->parse($^V)->numify;
+            diag('corelist data for feature at version ', $version, ': ', $Module::CoreList::version{$version}{feature});
+        };
     }
     else
     {

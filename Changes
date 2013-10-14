@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - more diagnostics printed in failing tests
 
 0.008     2013-09-19 03:29:22Z (Karen Etheridge)
           - fix issues with check_dual_life_version feature
