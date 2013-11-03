@@ -3,7 +3,6 @@ use warnings;
 package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # ABSTRACT: Check that no prerequisites are declared that are not part of core
 
-use 5.010;
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
