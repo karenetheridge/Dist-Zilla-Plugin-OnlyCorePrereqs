@@ -27,7 +27,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
@@ -50,7 +50,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
@@ -77,7 +77,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(

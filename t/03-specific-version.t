@@ -10,7 +10,7 @@ use Module::CoreList;
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
@@ -36,7 +36,7 @@ use Module::CoreList;
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
@@ -97,7 +97,7 @@ SKIP:
         unless Module::CoreList->VERSION ge '2.93';
 
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
@@ -122,7 +122,7 @@ SKIP:
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/corpus/basic' },
+        { dist_root => 't/does_not_exist' },
         {
             add_files => {
                 'source/dist.ini' => simple_ini(
