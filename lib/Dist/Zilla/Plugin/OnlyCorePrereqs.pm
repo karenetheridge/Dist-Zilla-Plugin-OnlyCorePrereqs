@@ -149,9 +149,9 @@ sub _is_dual
     $self->log_debug($module . ' is upstream=' . ($upstream // 'undef'));
     return 1 if defined $upstream and ($upstream eq 'cpan' or $upstream eq 'first-come');
 
-    # if upstream=blead, we can't be sure if it's actually dual or not, so for
-    # now we'll have to ask the index and hope that there's been a release to
-    # cpan since the last stable perl release.
+    # if upstream=blead or =undef, we can't be sure if it's actually dual or
+    # not, so for now we'll have to ask the index and hope that there's been a
+    # release to cpan since the last stable perl release.
     my $dist_name = $self->_indexed_dist($module);
     $self->log_debug($module . ' is indexed in the ' . ($dist_name // 'undef') . ' dist');
     return 0 if not defined $dist_name or $dist_name eq 'perl';
