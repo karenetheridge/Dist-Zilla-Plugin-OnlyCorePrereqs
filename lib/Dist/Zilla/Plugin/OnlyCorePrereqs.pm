@@ -105,7 +105,7 @@ sub after_build
 
                 if ($has < $wanted)
                 {
-                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version, $has ];
+                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version->numify, $has ];
                     next;
                 }
             }
