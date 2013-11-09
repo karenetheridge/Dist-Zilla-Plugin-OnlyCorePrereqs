@@ -1,8 +1,4 @@
 /.build/
-!.gitignore
-/cover_db/
-/test-mydeps-*
-/nytprof*
 /Dist-Zilla-Plugin-OnlyCorePrereqs-*
 /tmp/
 /todo.txt
