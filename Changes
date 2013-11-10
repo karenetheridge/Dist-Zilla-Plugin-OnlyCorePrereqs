@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.009     2013-11-10 19:40:18Z (TRIAL RELEASE)
           - more diagnostics printed in failing tests
 
 0.008     2013-09-19 03:29:22Z (Karen Etheridge)

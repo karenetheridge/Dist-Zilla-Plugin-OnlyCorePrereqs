@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.008
+version 0.009
 
 # SYNOPSIS
 
