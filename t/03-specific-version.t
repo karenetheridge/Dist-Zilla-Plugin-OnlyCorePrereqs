@@ -63,7 +63,7 @@ use Module::CoreList;
 
         cmp_deeply(
             $tzil->log_messages,
-            supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $^V only has \E\d\.\d+/)),
+            supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl ${\ version->parse($^V)->numify } only has \E\d\.\d+/)),
             'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
         ) or do {
             # we have some odd failing reports:

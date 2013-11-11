@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - fix expected string in tests for pre-5.019 perls
 
 0.009     2013-11-10 19:40:18Z (TRIAL RELEASE)
           - more diagnostics printed in failing tests
