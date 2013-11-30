@@ -20,6 +20,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting\E/,
@@ -30,7 +32,8 @@ use Test::DZil;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that was deprecated from core in 5.011: Switch'),
         'Switch has been deprecated',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 {
@@ -46,6 +49,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     is(
         exception { $tzil->build },
         undef,
@@ -53,9 +58,10 @@ use Test::DZil;
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
+        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
         'Switch has been deprecated, but that\'s ok!',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 done_testing;

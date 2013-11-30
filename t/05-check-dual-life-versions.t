@@ -62,6 +62,8 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
@@ -72,7 +74,8 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012'),
         'build failed -- HTTP::Tiny not at 0.025 in perl 5.014'
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 {
@@ -87,6 +90,8 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
             },
         },
     );
+
+    $tzil->chrome->logger->set_debug(1);
 
     # feature existed in 5.010, but not at the version we are asking for
     # feature is not dual-lifed, so we know the user hasn't upgraded.

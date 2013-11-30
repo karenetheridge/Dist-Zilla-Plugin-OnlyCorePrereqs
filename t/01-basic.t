@@ -20,6 +20,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
@@ -30,7 +32,8 @@ use Test::DZil;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that is not in core: Moose'),
         'Moose is not in core - plugin check fails',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 {
@@ -46,6 +49,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
@@ -56,7 +61,8 @@ use Test::DZil;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.010001: parent'),
         'parent was not in core in 5.10 - plugin check fails',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 {
@@ -73,6 +79,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     is(
         exception { $tzil->build },
         undef,
@@ -82,7 +90,8 @@ use Test::DZil;
     ok(
         (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
         'non-core modules are permitted in the test phase',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 done_testing;

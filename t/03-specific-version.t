@@ -21,6 +21,8 @@ use Module::CoreList;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     like(
         exception { $tzil->build },
         qr/\Q[OnlyCorePrereqs] aborting\E/,
@@ -52,6 +54,8 @@ use Module::CoreList;
 
     if ($^V < 5.019000)
     {
+        $tzil->chrome->logger->set_debug(1);
+
         like(
             exception { $tzil->build },
             qr/\Q[OnlyCorePrereqs] aborting\E/,
@@ -83,9 +87,10 @@ use Module::CoreList;
         );
 
         ok(
-            (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
+            (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
             'version of perl is new enough for feature 1.33 (need 5.019) - plugin check succeeds',
-        );
+        )
+        or diag explain $tzil->log_messages;
     }
 }
 
@@ -108,6 +113,8 @@ SKIP:
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     is(
         exception { $tzil->build },
         undef,
@@ -115,9 +122,10 @@ SKIP:
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
+        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
         'Carp is new enough in 5.019001 - plugin check succeeds',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 {
@@ -133,6 +141,8 @@ SKIP:
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     is(
         exception { $tzil->build },
         undef,
@@ -140,9 +150,10 @@ SKIP:
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
+        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
         'File::stat is undef in 5.005, but good enough - plugin check succeeds',
-    );
+    )
+    or diag explain $tzil->log_messages;
 }
 
 done_testing;
