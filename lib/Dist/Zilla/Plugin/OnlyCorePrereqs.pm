@@ -43,8 +43,16 @@ has check_dual_life_versions => (
     default => 1,
 );
 
-sub mvp_multivalue_args { qw(phases) }
-sub mvp_aliases { { phase => 'phases' } }
+has skips => (
+    isa => 'ArrayRef[Str]',
+    traits => ['Array'],
+    handles => { skip_module => 'grep' },
+    lazy => 1,
+    default => sub { [] },
+);
+
+sub mvp_multivalue_args { qw(phases skips) }
+sub mvp_aliases { { phase => 'phases', skip => 'skips' } }
 
 around BUILDARGS => sub
 {
@@ -81,8 +89,13 @@ sub after_build
         foreach my $prereq (keys %{ $prereqs->{$phase}{requires} // {} })
         {
             next if $prereq eq 'perl';
-            $self->log_debug("checking $prereq");
 
+            if ($self->skip_module(sub { $_ eq $prereq })) {
+                $self->log_debug("skipping $prereq");
+                next;
+            }
+
+            $self->log_debug("checking $prereq");
             my $added_in = Module::CoreList->first_release($prereq);
 
             if (not defined $added_in)
@@ -264,6 +277,10 @@ to L<Module::CoreList>).
 5.010 would fail with C<check_dual_life_versions = 1>, as the version of
 L<Test::More> that shipped with that version of perl was only 0.72,
 but not fail if C<check_dual_life_versions = 0>.
+
+=item * C<skip>
+
+The name of a module to exempt from checking. Can be used more than once.
 
 =back
 

@@ -3,6 +3,7 @@ Revision history for {{$dist->name}}
 {{$NEXT}}
           - now also checking configure and build prereqs by default
           (RT#91081)
+          - new "skip" option
 
 0.011     2013-11-30 17:29:54Z
           - re-release to fix compile test
