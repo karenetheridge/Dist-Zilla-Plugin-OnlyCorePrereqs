@@ -17,7 +17,7 @@ use namespace::autoclean;
 has phases => (
     isa => 'ArrayRef[Str]',
     lazy => 1,
-    default => sub { [ qw(runtime test) ] },
+    default => sub { [ qw(configure build runtime test) ] },
     traits => ['Array'],
     handles => { phases => 'elements' },
 );
@@ -149,8 +149,9 @@ sub _is_dual
     return 1 if defined $upstream and ($upstream eq 'cpan' or $upstream eq 'first-come');
 
     # if upstream=blead or =undef, we can't be sure if it's actually dual or
-    # not, so for now we'll have to ask the index and hope that there's been a
-    # release to cpan since the last stable perl release.
+    # not, so for now we'll have to ask the index and hope that the
+    # 'no_index' entries in the last perl release were complete.
+    # TODO: keep checking Module::CoreList for fixes.
     my $dist_name = $self->_indexed_dist($module);
     $self->log_debug($module . ' is indexed in the ' . ($dist_name // 'undef') . ' dist');
     return 0 if not defined $dist_name or $dist_name eq 'perl';
@@ -207,7 +208,7 @@ If the check fails, the build is aborted.
 =item * C<phase>
 
 Indicates a phase to check against. Can be provided more than once; defaults
-to C<runtime> and C<test>.  (See L<Dist::Zilla::Plugin::Prereqs> for more
+to C<configure>, C<build>, C<runtime>, C<test>.  (See L<Dist::Zilla::Plugin::Prereqs> for more
 information about phases.)
 
 Remember that you can use different settings for different phases by employing
