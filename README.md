@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.010
+version 0.011
 
 # SYNOPSIS
 
@@ -15,7 +15,7 @@ In your `dist.ini`:
 
 # DESCRIPTION
 
-`[OnlyCorePrereqs]` is a [Dist::Zilla](http://search.cpan.org/perldoc?Dist::Zilla) plugin that checks at build time if
+`[OnlyCorePrereqs]` is a [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) plugin that checks at build time if
 you have any declared prerequisites that are not shipped with Perl.
 
 You can specify the first Perl version to check against, and which
@@ -28,7 +28,7 @@ If the check fails, the build is aborted.
 - `phase`
 
     Indicates a phase to check against. Can be provided more than once; defaults
-    to `runtime` and `test`.  (See [Dist::Zilla::Plugin::Prereqs](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::Prereqs) for more
+    to `runtime` and `test`.  (See [Dist::Zilla::Plugin::Prereqs](https://metacpan.org/pod/Dist::Zilla::Plugin::Prereqs) for more
     information about phases.)
 
     Remember that you can use different settings for different phases by employing
@@ -46,9 +46,9 @@ If the check fails, the build is aborted.
     - `latest` - indicates the most recent (stable or development) release of Perl
 
     (Note: if you wish to check against __all__ changes in core up to the very
-    latest Perl release, you should upgrade your [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) installation.
+    latest Perl release, you should upgrade your [Module::CoreList](https://metacpan.org/pod/Module::CoreList) installation.
     You can guarantee you are always running the latest version with
-    [Dist::Zilla::Plugin::PromptIfStale](http://search.cpan.org/perldoc?Dist::Zilla::Plugin::PromptIfStale). [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList) is also the mechanism used for
+    [Dist::Zilla::Plugin::PromptIfStale](https://metacpan.org/pod/Dist::Zilla::Plugin::PromptIfStale). [Module::CoreList](https://metacpan.org/pod/Module::CoreList) is also the mechanism used for
     determining the version of the latest Perl release.)
 
 - `deprecated_ok`
@@ -71,11 +71,11 @@ If the check fails, the build is aborted.
     module is available outside of perl -- which can generate a false negative if
     the module is upstream-blead and there was a recent release of a stable perl.
     This is hopefully going to be rectified soon (when I add the necessary feature
-    to [Module::CoreList](http://search.cpan.org/perldoc?Module::CoreList)).
+    to [Module::CoreList](https://metacpan.org/pod/Module::CoreList)).
 
-    (For example, a prerequisite of [Test::More](http://search.cpan.org/perldoc?Test::More) 0.88 at `starting_version`
+    (For example, a prerequisite of [Test::More](https://metacpan.org/pod/Test::More) 0.88 at `starting_version`
     5.010 would fail with `check_dual_life_versions = 1`, as the version of
-    [Test::More](http://search.cpan.org/perldoc?Test::More) that shipped with that version of perl was only 0.72,
+    [Test::More](https://metacpan.org/pod/Test::More) that shipped with that version of perl was only 0.72,
     but not fail if `check_dual_life_versions = 0`.
 
 # SUPPORT

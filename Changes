@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.011     2013-11-30 17:29:54Z
           - re-release to fix compile test
 
 0.010     2013-11-11 17:02:47Z (TRIAL RELEASE)
