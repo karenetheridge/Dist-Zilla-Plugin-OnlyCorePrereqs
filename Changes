@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - re-release to fix compile test
 
 0.010     2013-11-11 17:02:47Z (TRIAL RELEASE)
           - fix expected string in tests for pre-5.019 perls
