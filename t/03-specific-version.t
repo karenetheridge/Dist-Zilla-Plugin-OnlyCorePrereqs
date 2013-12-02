@@ -32,7 +32,7 @@ use Module::CoreList;
     cmp_deeply(
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012'),
-        'HTTP::Tiny was in core in 5.014, but only at version 0.012 - plugin check fails',
+        'HTTP::Tiny was in core in 5.014, but only at version 0.012 - check fails',
     ) or diag explain $tzil->log_messages;
 }
 
@@ -68,7 +68,7 @@ use Module::CoreList;
         cmp_deeply(
             $tzil->log_messages,
             supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl ${\ version->parse($^V)->numify } only has \E\d\.\d+/)),
-            'version of perl is too old for feature 1.33 (need 5.019) - plugin check fails',
+            'version of perl is too old for feature 1.33 (need 5.019) - check fails',
         ) or do {
             # we have some odd failing reports:
             # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
@@ -88,7 +88,7 @@ use Module::CoreList;
 
         ok(
             (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
-            'version of perl is new enough for feature 1.33 (need 5.019) - plugin check succeeds',
+            'version of perl is new enough for feature 1.33 (need 5.019) - check succeeds',
         )
         or diag explain $tzil->log_messages;
     }
@@ -123,7 +123,7 @@ SKIP:
 
     ok(
         (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
-        'Carp is new enough in 5.019001 - plugin check succeeds',
+        'Carp is new enough in 5.019001 - check succeeds',
     )
     or diag explain $tzil->log_messages;
 }
@@ -151,7 +151,7 @@ SKIP:
 
     ok(
         (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
-        'File::stat is undef in 5.005, but good enough - plugin check succeeds',
+        'File::stat is undef in 5.005, but good enough - check succeeds',
     )
     or diag explain $tzil->log_messages;
 }
