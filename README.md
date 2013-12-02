@@ -4,7 +4,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 # VERSION
 
-version 0.011
+version 0.012
 
 # SYNOPSIS
 
@@ -28,7 +28,7 @@ If the check fails, the build is aborted.
 - `phase`
 
     Indicates a phase to check against. Can be provided more than once; defaults
-    to `runtime` and `test`.  (See [Dist::Zilla::Plugin::Prereqs](https://metacpan.org/pod/Dist::Zilla::Plugin::Prereqs) for more
+    to `configure`, `build`, `runtime`, `test`.  (See [Dist::Zilla::Plugin::Prereqs](https://metacpan.org/pod/Dist::Zilla::Plugin::Prereqs) for more
     information about phases.)
 
     Remember that you can use different settings for different phases by employing
@@ -77,6 +77,10 @@ If the check fails, the build is aborted.
     5.010 would fail with `check_dual_life_versions = 1`, as the version of
     [Test::More](https://metacpan.org/pod/Test::More) that shipped with that version of perl was only 0.72,
     but not fail if `check_dual_life_versions = 0`.
+
+- `skip`
+
+    The name of a module to exempt from checking. Can be used more than once.
 
 # SUPPORT
 
