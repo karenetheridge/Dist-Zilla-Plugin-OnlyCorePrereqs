@@ -1,6 +1,10 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - now treats dual-lifed modules that did not exist in core at all at
+            the versions being checked against as the same as existing, but
+            not being at a new enough version (relevant when
+            check_dual_life_versions = 0)
 
 0.012     2013-12-02 04:54:15Z
           - now also checking configure and build prereqs by default

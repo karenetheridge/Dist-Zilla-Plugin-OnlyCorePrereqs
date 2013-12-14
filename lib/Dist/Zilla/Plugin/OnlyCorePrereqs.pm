@@ -104,7 +104,8 @@ sub after_build
                 next;
             }
 
-            if (version->parse($added_in) > $self->starting_version)
+            if (version->parse($added_in) > $self->starting_version
+                and ($self->check_dual_life_versions or not $self->_is_dual($prereq)))
             {
                 push @not_yet, [$phase, $added_in, $prereq];
                 next;
