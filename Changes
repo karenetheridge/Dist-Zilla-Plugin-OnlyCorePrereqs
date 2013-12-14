@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.013     2013-12-14 21:09:08Z
           - now treats dual-lifed modules that did not exist in core at all at
             the versions being checked against as the same as existing, but
             not being at a new enough version (relevant when
