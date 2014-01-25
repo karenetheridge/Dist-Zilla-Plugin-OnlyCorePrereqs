@@ -76,6 +76,22 @@ around BUILDARGS => sub
     $args;
 };
 
+around dump_config => sub
+{
+    my $orig = shift;
+    my $self = shift;
+
+    my $config = $self->$orig;
+
+    $config->{'' . __PACKAGE__} = {
+        ( map { $_ => [ $self->$_ ] } qw(phases skips)),
+        ( map { $_ => $self->$_ } qw(starting_version deprecated_ok check_dual_life_versions)),
+
+    };
+
+    return $config;
+};
+
 sub after_build
 {
     my $self = shift;
