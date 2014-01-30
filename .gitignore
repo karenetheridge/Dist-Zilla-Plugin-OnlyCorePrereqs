@@ -1,5 +1,6 @@
 /.build/
-/Dist-Zilla-Plugin-OnlyCorePrereqs-*
+/Dist-Zilla-Plugin-OnlyCorePrereqs-*/
+/Dist-Zilla-Plugin-OnlyCorePrereqs-*.tar.gz
 /tmp/
 /todo.txt
 /todo/
