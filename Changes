@@ -24,7 +24,7 @@ Revision history for {{$dist->name}}
 
 0.008     2013-09-19 03:29:22Z
           - fix issues with check_dual_life_version feature
-          - remove "check_module_version" option
+          - remove "check_module_versions" option
 
 0.007     2013-09-18 00:41:19Z
           - new "check_dual_life_versions" option
