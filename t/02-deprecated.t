@@ -6,13 +6,14 @@ use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
+use Path::Tiny;
 
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => { Switch => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.012' } ],
                 ),
@@ -41,7 +42,7 @@ use Test::DZil;
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => { Switch => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.012', deprecated_ok => 1 } ],
                 ),

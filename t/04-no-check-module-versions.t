@@ -15,7 +15,7 @@ use Test::DZil;
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.014', check_module_versions => 0 } ],
                 ),

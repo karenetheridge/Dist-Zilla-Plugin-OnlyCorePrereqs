@@ -7,13 +7,14 @@ use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
 use Module::CoreList;
+use Path::Tiny;
 
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.014' } ],
                 ),
@@ -41,7 +42,7 @@ use Module::CoreList;
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'feature' => '1.33' } ],
                     [ OnlyCorePrereqs => { starting_version => 'current' } ],
                 ),
@@ -105,7 +106,7 @@ SKIP:
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'Carp' => '1.30' } ],
                     [ OnlyCorePrereqs => { starting_version => 'latest' } ],
                 ),
@@ -133,7 +134,7 @@ SKIP:
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'File::stat' => '0' } ],
                     [ OnlyCorePrereqs => ],
                 ),

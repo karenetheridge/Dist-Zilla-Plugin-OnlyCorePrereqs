@@ -6,6 +6,7 @@ use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
+use Path::Tiny;
 use Moose::Util 'find_meta';
 
 my @checked;
@@ -25,7 +26,7 @@ my @checked;
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     (map {
                         my $type = $_;
                         map {
@@ -64,7 +65,7 @@ undef @checked;
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     (map {
                         my $type = $_;
                         map {

@@ -6,6 +6,7 @@ use if $ENV{AUTHOR_TESTING}, 'Test::Warnings';
 use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
+use Path::Tiny;
 use Moose::Util 'find_meta';
 
 use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
@@ -30,7 +31,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.014', check_dual_life_versions => 0 } ],
                 ),
@@ -53,7 +54,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     # check_dual_life_versions defaults to true
                     [ OnlyCorePrereqs => { starting_version => '5.014' } ],
@@ -83,7 +84,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'feature' => '1.33' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.010000', check_dual_life_versions => 0 } ],
                 ),
@@ -114,7 +115,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         { dist_root => 't/does_not_exist' },
         {
             add_files => {
-                'source/dist.ini' => simple_ini(
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.008', check_dual_life_versions => 0 } ],
                 ),
