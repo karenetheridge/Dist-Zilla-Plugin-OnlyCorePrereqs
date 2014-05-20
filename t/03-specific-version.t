@@ -34,7 +34,7 @@ use Path::Tiny;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012'),
         'HTTP::Tiny was in core in 5.014, but only at version 0.012 - check fails',
-    ) or diag explain $tzil->log_messages;
+    ) or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -74,7 +74,7 @@ use Path::Tiny;
             # we have some odd failing reports:
             # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
             # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
-            diag('got messages: ', explain($tzil->log_messages));
+            diag 'saw log messages: ', explain $tzil->log_messages;
             my $version = version->parse($^V)->numify;
             diag('corelist data for feature at version ', $version, ': ', $Module::CoreList::version{$version}{feature});
         };
@@ -91,7 +91,7 @@ use Path::Tiny;
             (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
             'version of perl is new enough for feature 1.33 (need 5.019) - check succeeds',
         )
-        or diag explain $tzil->log_messages;
+        or diag 'saw log messages: ', explain $tzil->log_messages;
     }
 }
 
@@ -126,7 +126,7 @@ SKIP:
         (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
         'Carp is new enough in 5.019001 - check succeeds',
     )
-    or diag explain $tzil->log_messages;
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -154,7 +154,7 @@ SKIP:
         (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
         'File::stat is undef in 5.005, but good enough - check succeeds',
     )
-    or diag explain $tzil->log_messages;
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 done_testing;

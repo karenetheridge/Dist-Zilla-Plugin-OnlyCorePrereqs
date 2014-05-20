@@ -33,8 +33,7 @@ use Path::Tiny;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that is not in core: Moose'),
         'Moose is not in core - check fails',
-    )
-    or diag explain $tzil->log_messages;
+    ) or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -62,8 +61,7 @@ use Path::Tiny;
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.010001: parent'),
         'parent was not in core in 5.10 - check fails',
-    )
-    or diag explain $tzil->log_messages;
+    ) or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -91,8 +89,7 @@ use Path::Tiny;
     ok(
         (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
         'non-core modules are permitted in the test phase',
-    )
-    or diag explain $tzil->log_messages;
+    ) or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 done_testing;

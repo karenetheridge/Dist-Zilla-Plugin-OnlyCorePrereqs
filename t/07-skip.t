@@ -41,7 +41,7 @@ my @checked;
         undef,
         'build succeeded'
     )
-    or diag explain $tzil->log_messages;
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 
     cmp_deeply(
         \@checked,

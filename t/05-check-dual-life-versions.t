@@ -76,7 +76,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012'),
         'build failed -- HTTP::Tiny not at 0.025 in perl 5.014'
     )
-    or diag explain $tzil->log_messages;
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -107,7 +107,8 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl 5.010000 only has 1.11'),
         'build failed -- feature not at this version in perl 5.010'
-    ) or diag explain $tzil->log_messages;
+    )
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 {
@@ -131,7 +132,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         undef,
         'build succeeded, despite HTTP::Tiny not being in core in perl 5.013009'
     )
-    or diag 'got log messages: ', explain $tzil->log_messages;
+    or diag 'saw log messages: ', explain $tzil->log_messages;
 }
 
 done_testing;
