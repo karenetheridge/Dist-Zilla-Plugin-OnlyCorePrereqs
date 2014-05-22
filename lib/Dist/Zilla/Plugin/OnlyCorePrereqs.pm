@@ -12,7 +12,7 @@ use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
 use HTTP::Tiny;
 use Encode;
-use JSON;
+use JSON::MaybeXS;
 use namespace::autoclean;
 
 has phases => (
@@ -198,10 +198,9 @@ sub _indexed_dist
     my $res = HTTP::Tiny->new->get("http://cpanidx.org/cpanidx/json/mod/$module");
     $self->log_debug('could not query the index?'), return undef if not $res->{success};
 
-    # JSON wants UTF-8 bytestreams, so we need to re-encode no matter what
+    # decode_json wants UTF-8 bytestreams, so we need to re-encode no matter what
     # encoding we got. -- rjbs, 2011-08-18 (in Dist::Zilla)
-    my $json_octets = Encode::encode_utf8($res->{content});
-    my $payload = JSON::->new->decode($json_octets);
+    my $payload = decode_json(Encode::encode_utf8($res->{content}));
 
     $self->log_debug('invalid payload returned?'), return undef unless $payload;
     $self->log_debug($module . ' not indexed'), return undef if not defined $payload->[0]{dist_name};
