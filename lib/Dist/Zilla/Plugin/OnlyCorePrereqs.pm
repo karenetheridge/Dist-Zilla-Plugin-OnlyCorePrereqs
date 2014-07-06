@@ -13,6 +13,7 @@ use version;
 use HTTP::Tiny;
 use Encode;
 use JSON::MaybeXS;
+use CPAN::Meta::Requirements 2.121;
 use namespace::autoclean;
 
 has phases => (
@@ -31,7 +32,20 @@ has starting_version => (
         $version;
     },
     coerce => 1,
-    default => '5.005',
+    predicate => '_has_starting_version',
+    lazy => 1,
+    default => sub {
+        my $self = shift;
+
+        my $prereqs = $self->zilla->distmeta->{prereqs};
+        my @perl_prereqs = grep { defined } map { $prereqs->{$_}{requires}{perl} } keys %$prereqs;
+
+        return '5.005' if not @perl_prereqs;
+
+        my $req = CPAN::Meta::Requirements->new;
+        $req->add_minimum(perl => $_) foreach @perl_prereqs;
+        $req->requirements_for_module('perl');
+    },
 );
 
 has deprecated_ok => (
@@ -85,8 +99,8 @@ around dump_config => sub
 
     $config->{+__PACKAGE__} = {
         ( map { $_ => [ $self->$_ ] } qw(phases skips)),
-        ( map { $_ => $self->$_ } qw(starting_version deprecated_ok check_dual_life_versions)),
-
+        ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions)),
+        ( starting_version => ($self->_has_starting_version ? $self->starting_version : undef )),
     };
 
     return $config;
@@ -248,7 +262,8 @@ this plugin twice, with different names.
 
 Indicates the first Perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
-checks.  Defaults to C<5.005>.
+checks.  Defaults to the minimum version of perl declared in the distribution's
+prerequisites, or C<5.005>.
 
 There are two special values supported:
 
