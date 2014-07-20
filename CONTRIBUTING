@@ -4,9 +4,9 @@ CONTRIBUTING
 Thank you for considering contributing to this distribution.  This file
 contains instructions that will help you work with the source code.
 
-The distribution is managed with Dist::Zilla.  This means than many of the
-usual files you might expect are not in the repository, but are generated
-at release time (e.g. Makefile.PL).
+The distribution is managed with Dist::Zilla (https://metacpan.org/release/Dist-Zilla).
+This means than many of the usual files you might expect are not in the
+repository, but are generated at release time (e.g. Makefile.PL).
 
 However, you can run tests directly using the 'prove' tool:
 
@@ -31,13 +31,23 @@ install it from CPAN, then run one of the following commands, depending on
 your CPAN client:
 
   $ cpan `dzil authordeps --missing`
+or
   $ dzil authordeps --missing | cpanm
 
 You should then also install any additional requirements not needed by the
 dzil build but may be needed by tests or other development:
 
-  # cpan `dzil listdeps --author --missing`
+  $ cpan `dzil listdeps --author --missing`
+or
   $ dzil listdeps --author --missing | cpanm
+
+Or, you can use the 'dzil stale' command to install all requirements at once:
+
+  $ cpan Dist::Zilla::App::Command::stale
+  $ cpan `dzil stale --all`
+or
+  $ cpanm Dist::Zilla::App::Command::stale
+  $ dzil stale --all | cpanm
 
 You can also do this via cpanm directly:
 
@@ -54,8 +64,8 @@ Once installed, here are some dzil commands you might try:
 
 You can learn more about Dist::Zilla at http://dzil.org/.
 
-The code for this distribution is hosted at GitHub. The main repository is:
-https://github.com/karenetheridge/Dist-Zilla-Plugin-OnlyCorePrereqs.
+The code for this distribution is hosted at GitHub. The repository is:
+https://github.com/karenetheridge/Dist-Zilla-Plugin-OnlyCorePrereqs
 You can submit code changes by forking the repository, pushing your code
 changes to your clone, and then submitting a pull request. Detailed
 instructions for doing that is available here:
@@ -74,5 +84,5 @@ There is also an irc channel available for users of this distribution, at
 irc://irc.perl.org/#distzilla.
 
 
-This file was generated via Dist::Zilla::Plugin::GenerateFile::ShareDir 0.003 from a
-template file originating in Dist-Zilla-PluginBundle-Author-ETHER-0.043.
+This file was generated via Dist::Zilla::Plugin::GenerateFile::ShareDir 0.005 from a
+template file originating in Dist-Zilla-PluginBundle-Author-ETHER-0.066.

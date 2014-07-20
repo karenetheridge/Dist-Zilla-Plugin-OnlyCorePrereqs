@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.014     2014-07-20 15:35:18Z
           - 'starting_version' now defaults to the perl prerequisite declared
             in the distribution, if it exists
 
