@@ -33,7 +33,6 @@ has starting_version => (
         $version;
     },
     coerce => 1,
-    predicate => '_has_starting_version',
     lazy => 1,
     default => sub {
         my $self = shift;
@@ -100,8 +99,7 @@ around dump_config => sub
 
     $config->{+__PACKAGE__} = {
         ( map { $_ => [ $self->$_ ] } qw(phases skips)),
-        ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions)),
-        ( starting_version => ($self->_has_starting_version ? $self->starting_version : undef )),
+        ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions starting_version)),
     };
 
     return $config;
