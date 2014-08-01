@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.015     2014-08-01 01:01:20Z
           - fix fatal error in this plugin when used in conjunction with
             [MetaConfig] (introduced in 0.014)
 
