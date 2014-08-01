@@ -22,6 +22,7 @@ use List::Util 'first';
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { warnings => 0 } ],    # warnings were added in 5.006
                     [ OnlyCorePrereqs => ],
                 ),
@@ -49,6 +50,32 @@ use List::Util 'first';
         '5.005',
         'starting_version set to 5.005',
     );
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => superhashof({
+                                skips => [],
+                                phases => bag(qw(configure build runtime test)),
+                                starting_version => 'to be determined from perl prereq',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            }),
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    )
+        or diag 'got distmeta: ', explain $tzil->distmeta;
 }
 
 {
@@ -57,6 +84,7 @@ use List::Util 'first';
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => {
                         warnings => 0,
                         perl => '5.006',
@@ -87,6 +115,32 @@ use List::Util 'first';
         '5.006',
         'starting_version set to 5.006',
     );
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    superhashof({
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag(qw(configure build runtime test)),
+                                starting_version => 'to be determined from perl prereq',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    }),
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    )
+        or diag 'got distmeta: ', explain $tzil->distmeta;
 }
 
 done_testing;
