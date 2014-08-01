@@ -94,9 +94,7 @@ around BUILDARGS => sub
 
 around dump_config => sub
 {
-    my $orig = shift;
-    my $self = shift;
-
+    my ($orig, $self) = @_;
     my $config = $self->$orig;
 
     $config->{+__PACKAGE__} = {
