@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.016     2014-08-01 02:13:32Z
           - fix fatal error when [MetaConfig] is used and starting_version is
             not specified (from 0.015)
 
