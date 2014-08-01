@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - fix fatal error in this plugin when used in conjunction with
+            [MetaConfig] (introduced in 0.014)
 
 0.014     2014-07-20 15:35:18Z
           - 'starting_version' now defaults to the perl prerequisite declared

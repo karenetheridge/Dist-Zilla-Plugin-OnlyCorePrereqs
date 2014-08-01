@@ -7,6 +7,8 @@ use Test::Fatal;
 use Test::Deep;
 use Test::DZil;
 use Path::Tiny;
+use Test::Deep;
+use Test::Deep::JSON;
 
 {
     my $tzil = Builder->from_config(
@@ -70,6 +72,8 @@ use Path::Tiny;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaJSON => ],
+                    [ MetaConfig => ],
                     [ Prereqs => { perl => '5.010' } ],
                     [ Prereqs => TestRequires => { parent => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.010', phase => [ 'runtime' ] } ],
@@ -90,6 +94,32 @@ use Path::Tiny;
         (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
         'non-core modules are permitted in the test phase',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    my $json = path($tzil->tempdir, qw(build META.json))->slurp_raw;
+    cmp_deeply(
+        $json,
+        json(superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    superhashof({
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => [ 'runtime' ],
+                                starting_version => '5.010',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    }),
+                ),
+            })
+        })),
+        'config is properly included in metadata',
+    );
 }
 
 done_testing;

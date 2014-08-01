@@ -61,7 +61,10 @@ has check_dual_life_versions => (
 has skips => (
     isa => 'ArrayRef[Str]',
     traits => ['Array'],
-    handles => { skip_module => 'grep' },
+    handles => {
+        skips => 'elements',
+        skip_module => 'grep',
+    },
     lazy => 1,
     default => sub { [] },
 );
