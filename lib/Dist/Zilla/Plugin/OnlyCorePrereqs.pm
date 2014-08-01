@@ -246,9 +246,7 @@ If the check fails, the build is aborted.
 
 =head1 OPTIONS
 
-=over 4
-
-=item * C<phase>
+=head2 C<phase>
 
 Indicates a phase to check against. Can be provided more than once; defaults
 to C<configure>, C<build>, C<runtime>, C<test>.  (See L<Dist::Zilla::Plugin::Prereqs> for more
@@ -257,7 +255,7 @@ information about phases.)
 Remember that you can use different settings for different phases by employing
 this plugin twice, with different names.
 
-=item * C<starting_version>
+=head2 C<starting_version>
 
 Indicates the first Perl version that should be checked against; any versions
 earlier than this are not considered significant for the purposes of core
@@ -280,12 +278,12 @@ You can guarantee you are always running the latest version with
 L<Dist::Zilla::Plugin::PromptIfStale>. L<Module::CoreList> is also the mechanism used for
 determining the version of the latest Perl release.)
 
-=item * C<deprecated_ok>
+=head2 C<deprecated_ok>
 
 A boolean flag indicating whether it is considered acceptable to depend on a
 deprecated module. Defaults to 0.
 
-=item * C<check_dual_life_versions>
+=head2 C<check_dual_life_versions>
 
 =for stopwords lifed blead
 
@@ -309,11 +307,9 @@ to L<Module::CoreList>).
 L<Test::More> that shipped with that version of perl was only 0.72,
 but not fail if C<check_dual_life_versions = 0>.
 
-=item * C<skip>
+=head2 C<skip>
 
 The name of a module to exempt from checking. Can be used more than once.
-
-=back
 
 =head1 SUPPORT
 
