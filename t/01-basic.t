@@ -98,7 +98,7 @@ use Test::Deep;
         superhashof({
             x_Dist_Zilla => superhashof({
                 plugins => supersetof(
-                    superhashof({
+                    {
                         class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
@@ -111,7 +111,7 @@ use Test::Deep;
                         },
                         name => 'OnlyCorePrereqs',
                         version => ignore,
-                    }),
+                    },
                 ),
             })
         }),

@@ -121,7 +121,7 @@ use List::Util 'first';
         superhashof({
             x_Dist_Zilla => superhashof({
                 plugins => supersetof(
-                    superhashof({
+                    {
                         class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
@@ -134,7 +134,7 @@ use List::Util 'first';
                         },
                         name => 'OnlyCorePrereqs',
                         version => ignore,
-                    }),
+                    },
                 ),
             })
         }),
