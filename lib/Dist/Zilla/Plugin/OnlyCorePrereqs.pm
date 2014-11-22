@@ -211,7 +211,9 @@ sub _indexed_dist
 {
     my ($self, $module) = @_;
 
-    my $res = HTTP::Tiny->new->get("http://cpanidx.org/cpanidx/json/mod/$module");
+    my $url = 'http://cpanidx.org/cpanidx/json/mod/' . $module;
+    $self->log_debug([ 'fetching %s', $url ]);
+    my $res = HTTP::Tiny->new->get($url);
     $self->log_debug('could not query the index?'), return undef if not $res->{success};
 
     my $data = $res->{content};
@@ -221,6 +223,7 @@ sub _indexed_dist
     {
         $data = Encode::decode($charset, $data, Encode::FB_CROAK);
     }
+    $self->log_debug([ 'got response: %s', $data ]);
 
     my $payload = JSON::MaybeXS->new(utf8 => 0)->decode($data);
 
