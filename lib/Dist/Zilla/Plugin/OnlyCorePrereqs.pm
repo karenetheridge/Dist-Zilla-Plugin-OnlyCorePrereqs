@@ -123,11 +123,11 @@ sub after_build
             next if $prereq eq 'perl';
 
             if ($self->skip_module(sub { $_ eq $prereq })) {
-                $self->log_debug("skipping $prereq");
+                $self->log_debug([ 'skipping %s', $prereq ]);
                 next;
             }
 
-            $self->log_debug("checking $prereq");
+            $self->log_debug([ 'checking %s', $prereq ]);
             my $added_in = Module::CoreList->first_release($prereq);
 
             if (not defined $added_in)
@@ -191,7 +191,7 @@ sub _is_dual
     my ($self, $module) = @_;
 
     my $upstream = $Module::CoreList::upstream{$module};
-    $self->log_debug($module . ' is upstream=' . ($upstream // 'undef'));
+    $self->log_debug([ '%s is upstream=%s', $module, sub { $upstream // 'undef' } ]);
     return 1 if defined $upstream and ($upstream eq 'cpan' or $upstream eq 'first-come');
 
     # if upstream=blead or =undef, we can't be sure if it's actually dual or
@@ -199,7 +199,7 @@ sub _is_dual
     # 'no_index' entries in the last perl release were complete.
     # TODO: keep checking Module::CoreList for fixes.
     my $dist_name = $self->_indexed_dist($module);
-    $self->log_debug($module . ' is indexed in the ' . ($dist_name // 'undef') . ' dist');
+    $self->log_debug([ '%s is indexed in the %s dist', $module, sub { $dist_name // 'undef' } ]);
     return 0 if not defined $dist_name or $dist_name eq 'perl';
     return 1;
 }
@@ -216,7 +216,7 @@ sub _indexed_dist
     my $payload = JSON::MaybeXS->new(utf8 => 0)->decode($res->{content});
 
     $self->log_debug('invalid payload returned?'), return undef unless $payload;
-    $self->log_debug($module . ' not indexed'), return undef if not defined $payload->[0]{dist_name};
+    $self->log_debug([ '%s not indexed', $module ]), return undef if not defined $payload->[0]{dist_name};
     return $payload->[0]{dist_name};
 }
 
