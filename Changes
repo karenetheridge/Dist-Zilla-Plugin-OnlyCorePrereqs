@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - switch from cpanidx to cpanmetadb index
 
 0.017     2014-08-06 05:39:32Z
           - re-release to remove README.pod from shipped dist

@@ -13,7 +13,8 @@ use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
 use Encode;
 use HTTP::Tiny;
-use JSON::MaybeXS;
+use YAML::Tiny;
+use CPAN::DistnameInfo;
 use CPAN::Meta::Requirements 2.121;
 use namespace::autoclean;
 
@@ -211,7 +212,7 @@ sub _indexed_dist
 {
     my ($self, $module) = @_;
 
-    my $url = 'http://cpanidx.org/cpanidx/json/mod/' . $module;
+    my $url = 'http://cpanmetadb.plackperl.org/v1.0/package/' . $module;
     $self->log_debug([ 'fetching %s', $url ]);
     my $res = HTTP::Tiny->new->get($url);
     $self->log_debug('could not query the index?'), return undef if not $res->{success};
@@ -225,11 +226,11 @@ sub _indexed_dist
     }
     $self->log_debug([ 'got response: %s', $data ]);
 
-    my $payload = JSON::MaybeXS->new(utf8 => 0)->decode($data);
+    my $payload = YAML::Tiny->read_string($data);
 
     $self->log_debug('invalid payload returned?'), return undef unless $payload;
     $self->log_debug([ '%s not indexed', $module ]), return undef if not defined $payload->[0]{dist_name};
-    return $payload->[0]{dist_name};
+    return CPAN::DistnameInfo->new($payload->[0]{dist_name})->dist;
 }
 
 __PACKAGE__->meta->make_immutable;
