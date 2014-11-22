@@ -11,6 +11,7 @@ use Moose::Util::TypeConstraints;
 use Module::CoreList 3.10;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
+use Encode;
 use HTTP::Tiny;
 use JSON::MaybeXS;
 use CPAN::Meta::Requirements 2.121;
@@ -213,7 +214,15 @@ sub _indexed_dist
     my $res = HTTP::Tiny->new->get("http://cpanidx.org/cpanidx/json/mod/$module");
     $self->log_debug('could not query the index?'), return undef if not $res->{success};
 
-    my $payload = JSON::MaybeXS->new(utf8 => 0)->decode($res->{content});
+    my $data = $res->{content};
+
+    require HTTP::Headers;
+    if (my $charset = HTTP::Headers->new(%{ $res->{headers} })->content_type_charset)
+    {
+        $data = Encode::decode($charset, $data, Encode::FB_CROAK);
+    }
+
+    my $payload = JSON::MaybeXS->new(utf8 => 0)->decode($data);
 
     $self->log_debug('invalid payload returned?'), return undef unless $payload;
     $self->log_debug([ '%s not indexed', $module ]), return undef if not defined $payload->[0]{dist_name};
