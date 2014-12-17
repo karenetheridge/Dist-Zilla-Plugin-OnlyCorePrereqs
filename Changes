@@ -1,6 +1,9 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - fixed bad parsing of response from cpanmetadb, which resulted in
+            invalid failures for dual-life upstream-blead modules when
+            check_dual_life_versions = 0
 
 0.018     2014-11-22 04:02:17Z
           - switch from cpanidx to cpanmetadb index

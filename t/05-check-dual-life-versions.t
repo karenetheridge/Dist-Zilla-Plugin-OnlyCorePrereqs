@@ -12,17 +12,40 @@ use Moose::Util 'find_meta';
 use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
 
 {
-    my $meta = find_meta('Dist::Zilla::Plugin::OnlyCorePrereqs');
-    $meta->make_mutable;
-    $meta->add_around_method_modifier(_indexed_dist => sub {
-        my $orig = shift;
-        my $self = shift;
-        my ($module) = @_;
+    use HTTP::Tiny;
+    package HTTP::Tiny;
+    no warnings 'redefine';
+    sub get {
+        my ($self, $url) = @_;
+        ::note 'in monkeypatched HTTP::Tiny::get for ' . $url;
+        my ($module) = reverse split('/', $url);
 
-        return 'HTTP-Tiny' if $module eq 'HTTP::Tiny';
-        return undef if $module eq 'feature';
-        die 'should not be checking for ' . $module;
-    });
+        return +{
+            success => 1,
+            status => '200',
+            reason => 'OK',
+            protocol => 'HTTP/1.1',
+            url => $url,
+            headers => {
+                'content-type' => 'text/x-yaml',
+            },
+            content =>
+                $module eq 'feature' ? '---
+distfile: R/RJ/RJBS/perl-5.20.0.tar.gz
+version: 1.36
+'
+                : $module eq 'if' ? '---
+distfile: I/IL/ILYAZ/modules/if-0.0601.tar.gz
+version: 0.0601
+'
+                : ($module eq 'HTTP::Tiny' ? '---
+distfile: D/DA/DAGOLDEN/HTTP-Tiny-0.053.tar.gz
+version: 0.053
+'
+                : die "should not be checking for $module"
+        ),
+        };
+    }
 }
 
 
@@ -117,6 +140,30 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ Prereqs => RuntimeRequires => { 'if' => '0' } ],
+                    [ OnlyCorePrereqs => { starting_version => '5.006', check_dual_life_versions => 0 } ],
+                ),
+            },
+        },
+    );
+
+    # normally we'd see this:
+    # [OnlyCorePrereqs] detected a runtime requires dependency that was not
+    # added to core until 5.006002: if
+    is(
+        exception { $tzil->build },
+        undef,
+        'build succeeded, despite if (upstream=blead) not being in core in perl 5.006'
+    )
+    or diag 'saw log messages: ', explain $tzil->log_messages;
+}
+
+{
+    my $tzil = Builder->from_config(
+        { dist_root => 't/does_not_exist' },
+        {
+            add_files => {
+                path(qw(source dist.ini)) => simple_ini(
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.008', check_dual_life_versions => 0 } ],
                 ),
@@ -130,7 +177,7 @@ use Dist::Zilla::Plugin::OnlyCorePrereqs;   # make sure we are loaded!
     is(
         exception { $tzil->build },
         undef,
-        'build succeeded, despite HTTP::Tiny not being in core in perl 5.013009'
+        'build succeeded, despite HTTP::Tiny (upstream=cpan) not being in core in perl 5.008'
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
 }
