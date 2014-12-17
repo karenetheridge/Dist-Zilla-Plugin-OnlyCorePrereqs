@@ -207,6 +207,16 @@ sub _is_dual
     $self->log_debug([ '%s is indexed in the %s dist', $module, $dist_name ]);
     return $dist_name eq 'perl' ? 0 : 1;
 }
+{
+    my %is_dual;
+    around _is_dual => sub {
+        my $orig = shift;
+        my ($self, $module) = @_;
+
+        return $is_dual{$module} if exists $is_dual{$module};
+        $is_dual{$module} = $self->$orig($module);
+    };
+}
 
 
 # if only the index were cached somewhere locally that I could query...
