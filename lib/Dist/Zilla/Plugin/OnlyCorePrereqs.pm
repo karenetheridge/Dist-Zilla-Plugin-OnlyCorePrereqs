@@ -188,6 +188,7 @@ sub after_build
 
 # this will get easier if we can just ask MCL for this information, rather
 # than guessing.
+# returns undef if not indexed, otherwise true/false.
 sub _is_dual
 {
     my ($self, $module) = @_;
@@ -201,9 +202,10 @@ sub _is_dual
     # 'no_index' entries in the last perl release were complete.
     # TODO: keep checking Module::CoreList for fixes.
     my $dist_name = $self->_indexed_dist($module);
-    $self->log_debug([ '%s is indexed in the %s dist', $module, sub { $dist_name // 'undef' } ]);
-    return 0 if not defined $dist_name or $dist_name eq 'perl';
-    return 1;
+    $self->log([ 'Warning: %s not indexed?!', $module ]), return undef if not defined $dist_name;
+
+    $self->log_debug([ '%s is indexed in the %s dist', $module, $dist_name ]);
+    return $dist_name eq 'perl' ? 0 : 1;
 }
 
 
