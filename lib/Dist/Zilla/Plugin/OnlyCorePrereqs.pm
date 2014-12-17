@@ -224,7 +224,7 @@ sub _indexed_dist
     {
         $data = Encode::decode($charset, $data, Encode::FB_CROAK);
     }
-    $self->log_debug([ 'got response: %s', $data ]);
+    $self->log_debug([ 'got response: %s', sub { chomp $data; $data } ]);
 
     my $payload = YAML::Tiny->read_string($data);
 
