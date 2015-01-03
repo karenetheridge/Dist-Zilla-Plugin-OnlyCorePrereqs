@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.020     2015-01-03 20:57:36Z
           - re-release to fix problematic $VERSION declaration (RT#101095)
 
 0.019     2014-12-18 06:44:28Z
