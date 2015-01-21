@@ -38,12 +38,12 @@ version: 1.36
 distfile: I/IL/ILYAZ/modules/if-0.0601.tar.gz
 version: 0.0601
 '
-                : ($module eq 'HTTP::Tiny' ? '---
+                : $module eq 'HTTP::Tiny' ? '---
 distfile: D/DA/DAGOLDEN/HTTP-Tiny-0.053.tar.gz
 version: 0.053
 '
                 : die "should not be checking for $module"
-        ),
+            ,
         };
     }
 }
