@@ -47,6 +47,7 @@ use Test::Deep;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,
@@ -104,6 +105,7 @@ use Test::Deep;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.010',
                                 deprecated_ok => 0,
@@ -161,6 +163,7 @@ use Test::Deep;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => [ 'runtime' ],
                                 starting_version => str('5.010'),
                                 deprecated_ok => 0,

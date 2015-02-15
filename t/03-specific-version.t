@@ -47,6 +47,7 @@ use Path::Tiny;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.014',
                                 deprecated_ok => 0,
@@ -134,6 +135,7 @@ use Path::Tiny;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => re(qr/[\d.]+/),
                                 deprecated_ok => 0,
@@ -197,6 +199,7 @@ SKIP:
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => re(qr/[\d.]+/),
                                 deprecated_ok => 0,
@@ -248,6 +251,7 @@ SKIP:
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,

@@ -47,6 +47,7 @@ use Path::Tiny;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.012',
                                 deprecated_ok => 0,
@@ -104,6 +105,7 @@ use Path::Tiny;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.012',
                                 deprecated_ok => 1,

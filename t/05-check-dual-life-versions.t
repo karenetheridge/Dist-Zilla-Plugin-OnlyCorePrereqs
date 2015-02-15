@@ -82,6 +82,7 @@ version: 0.053
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.014',
                                 deprecated_ok => 0,
@@ -141,6 +142,7 @@ version: 0.053
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.014',
                                 deprecated_ok => 0,
@@ -201,6 +203,7 @@ version: 0.053
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.010000',
                                 deprecated_ok => 0,
@@ -253,6 +256,7 @@ version: 0.053
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.006',
                                 deprecated_ok => 0,
@@ -306,6 +310,7 @@ version: 0.053
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => '5.008',
                                 deprecated_ok => 0,

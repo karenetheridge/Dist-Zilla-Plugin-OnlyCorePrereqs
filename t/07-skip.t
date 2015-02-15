@@ -59,6 +59,7 @@ my @checked;
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [ 'Foo', ],
+                                also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,

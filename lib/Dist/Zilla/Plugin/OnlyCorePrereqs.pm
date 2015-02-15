@@ -71,7 +71,18 @@ has skips => (
     default => sub { [] },
 );
 
-sub mvp_multivalue_args { qw(phases skips) }
+has also_disallow => (
+    isa => 'ArrayRef[Str]',
+    traits => ['Array'],
+    handles => {
+        also_disallow => 'elements',
+        disallowed => 'grep',
+    },
+    lazy => 1,
+    default => sub { [] },
+);
+
+sub mvp_multivalue_args { qw(phases skips also_disallow) }
 sub mvp_aliases { { phase => 'phases', skip => 'skips' } }
 
 around BUILDARGS => sub
@@ -101,7 +112,7 @@ around dump_config => sub
     my $config = $self->$orig;
 
     $config->{+__PACKAGE__} = {
-        ( map { $_ => [ $self->$_ ] } qw(phases skips)),
+        ( map { $_ => [ $self->$_ ] } qw(phases skips also_disallow)),
         ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions)),
         ( starting_version => ($self->_has_starting_version ? $self->starting_version : 'to be determined from perl prereq')),
     };
@@ -116,7 +127,7 @@ sub after_build
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
     # we build up a lists of all errors found
-    my (@non_core, @not_yet, @insufficient_version, @deprecated);
+    my (@disallowed, @non_core, @not_yet, @insufficient_version, @deprecated);
 
     foreach my $phase ($self->phases)
     {
@@ -124,12 +135,20 @@ sub after_build
         {
             next if $prereq eq 'perl';
 
-            if ($self->skip_module(sub { $_ eq $prereq })) {
+            if ($self->skip_module(sub { $_ eq $prereq }))
+            {
                 $self->log_debug([ 'skipping %s', $prereq ]);
                 next;
             }
 
             $self->log_debug([ 'checking %s', $prereq ]);
+
+            if ($self->disallowed(sub { $_ eq $prereq }))
+            {
+                push @disallowed, [$phase, $prereq];
+                next;
+            }
+
             my $added_in = Module::CoreList->first_release($prereq);
 
             if (not defined $added_in)
@@ -170,6 +189,9 @@ sub after_build
         }
     }
 
+    $self->log(['detected a %s requires dependency that is explicitly disallowed: %s', @$_])
+        for @disallowed;
+
     $self->log(['detected a %s requires dependency that is not in core: %s', @$_])
         for @non_core;
 
@@ -183,7 +205,7 @@ sub after_build
         for @deprecated;
 
     $self->log_fatal('aborting build due to invalid dependencies')
-        if @non_core || @not_yet || @insufficient_version || @deprecated;
+        if @disallowed || @non_core || @not_yet || @insufficient_version || @deprecated;
 }
 
 # this will get easier if we can just ask MCL for this information, rather
@@ -256,6 +278,8 @@ In your F<dist.ini>:
 
     [OnlyCorePrereqs]
     starting_version = 5.010
+    skip = Test::Warnings
+    also_disallow = Scalar::Util
 
 =head1 DESCRIPTION
 
@@ -335,6 +359,15 @@ but not fail if C<check_dual_life_versions = 0>.
 =head2 C<skip>
 
 The name of a module to exempt from checking. Can be used more than once.
+
+=head2 C<also_disallow>
+
+Available since version 0.021.
+
+The name of a module to disallow from being used as a prereq, even if it would
+pass all the other checks. This is primarily of use when building core modules
+themselves, where certain other core modules cannot be used, to avoid circular
+dependencies.  Can be used more than once.
 
 =head1 SUPPORT
 

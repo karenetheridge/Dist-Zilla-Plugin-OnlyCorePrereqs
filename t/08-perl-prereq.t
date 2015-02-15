@@ -61,6 +61,7 @@ use List::Util 'first';
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag(qw(configure build runtime test)),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,
@@ -128,6 +129,7 @@ use List::Util 'first';
                         config => {
                             'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
+                                also_disallow => [],
                                 phases => bag(qw(configure build runtime test)),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,

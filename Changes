@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - new 'also_disallow' option, for prohibiting some core modules
 
 0.020     2015-01-03 20:57:36Z
           - re-release to fix problematic $VERSION declaration (RT#101095)
