@@ -10,7 +10,7 @@ our $VERSION = '0.022';
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
-use Module::CoreList 3.10;
+use Module::CoreList 5.20150214;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
 use Encode;
