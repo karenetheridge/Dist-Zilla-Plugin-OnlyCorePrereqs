@@ -35,6 +35,9 @@ use Path::Tiny;
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny 0.025: perl 5.014 only has 0.012'),
         'HTTP::Tiny was in core in 5.014, but only at version 0.012 - check fails',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -93,6 +96,9 @@ use Path::Tiny;
         )
         or diag 'saw log messages: ', explain $tzil->log_messages;
     }
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 SKIP:
@@ -127,6 +133,9 @@ SKIP:
         'Carp is new enough in 5.019001 - check succeeds',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -155,6 +164,9 @@ SKIP:
         'File::stat is undef in 5.005, but good enough - check succeeds',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

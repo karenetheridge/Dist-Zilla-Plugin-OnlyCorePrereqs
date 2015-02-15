@@ -35,6 +35,9 @@ use Path::Tiny;
         'Switch has been deprecated',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -63,6 +66,9 @@ use Path::Tiny;
         'Switch has been deprecated, but that\'s ok!',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

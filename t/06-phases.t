@@ -56,6 +56,9 @@ my @checked;
         ) ],
         'correct phases and types are checked by default',
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 undef @checked;
@@ -92,6 +95,9 @@ undef @checked;
         ) ],
         '"phase" option can be customized',
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

@@ -40,14 +40,16 @@ my @checked;
         exception { $tzil->build },
         undef,
         'build succeeded'
-    )
-    or diag 'saw log messages: ', explain $tzil->log_messages;
+    );
 
     cmp_deeply(
         \@checked,
         [ 'Bar' ],
         'skip option is respected',
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

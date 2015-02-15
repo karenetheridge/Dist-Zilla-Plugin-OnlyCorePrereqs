@@ -70,6 +70,9 @@ version: 0.053
         undef,
         'build succeeded, despite HTTP::Tiny not at 0.025 in perl 5.014'
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -100,6 +103,9 @@ version: 0.053
         'build failed -- HTTP::Tiny not at 0.025 in perl 5.014'
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -130,8 +136,10 @@ version: 0.053
         $tzil->log_messages,
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl 5.010000 only has 1.11'),
         'build failed -- feature not at this version in perl 5.010'
-    )
-    or diag 'saw log messages: ', explain $tzil->log_messages;
+    );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -154,8 +162,10 @@ version: 0.053
         exception { $tzil->build },
         undef,
         'build succeeded, despite if (upstream=blead) not being in core in perl 5.006'
-    )
-    or diag 'saw log messages: ', explain $tzil->log_messages;
+    );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -180,6 +190,9 @@ version: 0.053
         'build succeeded, despite HTTP::Tiny (upstream=cpan) not being in core in perl 5.008'
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

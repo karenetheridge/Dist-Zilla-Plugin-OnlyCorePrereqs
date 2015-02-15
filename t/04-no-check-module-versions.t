@@ -31,6 +31,9 @@ use Test::DZil;
         undef,
         'build succeeded, despite HTTP::Tiny not at 0.025 in perl 5.014'
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

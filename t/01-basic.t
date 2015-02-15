@@ -35,6 +35,9 @@ use Test::Deep;
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that is not in core: Moose'),
         'Moose is not in core - check fails',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -63,6 +66,9 @@ use Test::Deep;
         supersetof('[OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.010001: parent'),
         'parent was not in core in 5.10 - check fails',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -117,6 +123,9 @@ use Test::Deep;
         }),
         'config is properly included in metadata',
     );
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;

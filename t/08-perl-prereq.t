@@ -76,6 +76,9 @@ use List::Util 'first';
         'config is properly included in metadata',
     )
         or diag 'got distmeta: ', explain $tzil->distmeta;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 {
@@ -141,6 +144,9 @@ use List::Util 'first';
         'config is properly included in metadata',
     )
         or diag 'got distmeta: ', explain $tzil->distmeta;
+
+    diag 'got log messages: ', explain $tzil->log_messages
+        if not Test::Builder->new->is_passing;
 }
 
 done_testing;
