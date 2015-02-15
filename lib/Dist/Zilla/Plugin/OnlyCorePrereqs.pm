@@ -4,7 +4,9 @@ package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # ABSTRACT: Check that no prerequisites are declared that are not part of core
 # KEYWORDS: plugin distribution metadata prerequisites core
 # vim: set ts=8 sw=4 tw=78 et :
+
 our $VERSION = '0.022';
+
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
 use Moose::Util::TypeConstraints;
