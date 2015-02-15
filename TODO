@@ -1,0 +1,9 @@
+
+TODO:
+
+a variation of the dual-life check - do not allow things that have been
+ejected from core -- check is_dual for the latest perl release.
+needs 'ending_version' -- assume to be 'latest' - for requiring that
+modules stay in core for the duration.
+(actually only check the endpoints, since there is no precedent for a module leaving core and then re-entering it again.)
+
