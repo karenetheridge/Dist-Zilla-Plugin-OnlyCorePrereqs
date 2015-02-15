@@ -311,7 +311,7 @@ earlier than this are not considered significant for the purposes of core
 checks.  Defaults to the minimum version of perl declared in the distribution's
 prerequisites, or C<5.005>.
 
-There are two special values supported:
+There are two special values supported (available since version 0.003):
 
 =begin :list
 
@@ -333,6 +333,8 @@ A boolean flag indicating whether it is considered acceptable to depend on a
 deprecated module. Defaults to 0.
 
 =head2 C<check_dual_life_versions>
+
+Available since version 0.007.
 
 =for stopwords lifed blead
 
@@ -357,6 +359,8 @@ L<Test::More> that shipped with that version of perl was only 0.72,
 but not fail if C<check_dual_life_versions = 0>.
 
 =head2 C<skip>
+
+Available since version 0.012.
 
 The name of a module to exempt from checking. Can be used more than once.
 
