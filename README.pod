@@ -8,7 +8,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 =head1 VERSION
 
-version 0.020
+version 0.021
 
 =head1 SYNOPSIS
 
@@ -16,6 +16,8 @@ In your F<dist.ini>:
 
     [OnlyCorePrereqs]
     starting_version = 5.010
+    skip = Test::Warnings
+    also_disallow = Scalar::Util
 
 =head1 DESCRIPTION
 
@@ -47,7 +49,7 @@ earlier than this are not considered significant for the purposes of core
 checks.  Defaults to the minimum version of perl declared in the distribution's
 prerequisites, or C<5.005>.
 
-There are two special values supported:
+There are two special values supported (available since version 0.003):
 
 =over 4
 
@@ -69,6 +71,8 @@ A boolean flag indicating whether it is considered acceptable to depend on a
 deprecated module. Defaults to 0.
 
 =head2 C<check_dual_life_versions>
+
+Available since version 0.007.
 
 =for stopwords lifed blead
 
@@ -94,7 +98,18 @@ but not fail if C<check_dual_life_versions = 0>.
 
 =head2 C<skip>
 
+Available since version 0.012.
+
 The name of a module to exempt from checking. Can be used more than once.
+
+=head2 C<also_disallow>
+
+Available since version 0.021.
+
+The name of a module to disallow from being used as a prereq, even if it would
+pass all the other checks. This is primarily of use when building core modules
+themselves, where certain other core modules cannot be used, to avoid circular
+dependencies.  Can be used more than once.
 
 =head1 SUPPORT
 
