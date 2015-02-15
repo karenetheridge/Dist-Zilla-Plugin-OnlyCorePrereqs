@@ -15,6 +15,7 @@ use Path::Tiny;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.014' } ],
                 ),
@@ -36,6 +37,31 @@ use Path::Tiny;
         'HTTP::Tiny was in core in 5.014, but only at version 0.012 - check fails',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.014',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -46,6 +72,7 @@ use Path::Tiny;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'feature' => '1.33' } ],
                     [ OnlyCorePrereqs => { starting_version => 'current' } ],
                 ),
@@ -97,6 +124,31 @@ use Path::Tiny;
         or diag 'saw log messages: ', explain $tzil->log_messages;
     }
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => re(qr/[\d.]+/),
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -113,6 +165,7 @@ SKIP:
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'Carp' => '1.30' } ],
                     [ OnlyCorePrereqs => { starting_version => 'latest' } ],
                 ),
@@ -134,6 +187,31 @@ SKIP:
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => re(qr/[\d.]+/),
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -144,6 +222,7 @@ SKIP:
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'File::stat' => '0' } ],
                     [ OnlyCorePrereqs => ],
                 ),
@@ -158,6 +237,31 @@ SKIP:
         undef,
         'build is not aborted',
     );
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => 'to be determined from perl prereq',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
 
     ok(
         (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),

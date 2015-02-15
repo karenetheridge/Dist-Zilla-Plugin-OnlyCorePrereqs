@@ -14,6 +14,7 @@ use Path::Tiny;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => { Switch => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.012' } ],
                 ),
@@ -36,6 +37,31 @@ use Path::Tiny;
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.012',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -46,6 +72,7 @@ use Path::Tiny;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => { Switch => 0 } ],
                     [ OnlyCorePrereqs => { starting_version => '5.012', deprecated_ok => 1 } ],
                 ),
@@ -66,6 +93,31 @@ use Path::Tiny;
         'Switch has been deprecated, but that\'s ok!',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.012',
+                                deprecated_ok => 1,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
 
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;

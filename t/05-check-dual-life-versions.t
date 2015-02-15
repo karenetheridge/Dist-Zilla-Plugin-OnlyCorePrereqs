@@ -55,6 +55,7 @@ version: 0.053
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.014', check_dual_life_versions => 0 } ],
                 ),
@@ -71,6 +72,31 @@ version: 0.053
         'build succeeded, despite HTTP::Tiny not at 0.025 in perl 5.014'
     );
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.014',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 0,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -81,6 +107,7 @@ version: 0.053
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     # check_dual_life_versions defaults to true
                     [ OnlyCorePrereqs => { starting_version => '5.014' } ],
@@ -104,6 +131,31 @@ version: 0.053
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.014',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -114,6 +166,7 @@ version: 0.053
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'feature' => '1.33' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.010000', check_dual_life_versions => 0 } ],
                 ),
@@ -138,6 +191,31 @@ version: 0.053
         'build failed -- feature not at this version in perl 5.010'
     );
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.010000',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 0,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -148,6 +226,7 @@ version: 0.053
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'if' => '0' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.006', check_dual_life_versions => 0 } ],
                 ),
@@ -164,6 +243,31 @@ version: 0.053
         'build succeeded, despite if (upstream=blead) not being in core in perl 5.006'
     );
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.006',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 0,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -174,6 +278,7 @@ version: 0.053
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     [ Prereqs => RuntimeRequires => { 'HTTP::Tiny' => '0.025' } ],
                     [ OnlyCorePrereqs => { starting_version => '5.008', check_dual_life_versions => 0 } ],
                 ),
@@ -190,6 +295,31 @@ version: 0.053
         'build succeeded, despite HTTP::Tiny (upstream=cpan) not being in core in perl 5.008'
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => '5.008',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 0,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
 
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;

@@ -59,13 +59,13 @@ use List::Util 'first';
                     {
                         class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
                         config => {
-                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => superhashof({
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
                                 skips => [],
                                 phases => bag(qw(configure build runtime test)),
                                 starting_version => 'to be determined from perl prereq',
                                 deprecated_ok => 0,
                                 check_dual_life_versions => 1,
-                            }),
+                            },
                         },
                         name => 'OnlyCorePrereqs',
                         version => ignore,
@@ -74,8 +74,7 @@ use List::Util 'first';
             })
         }),
         'config is properly included in metadata',
-    )
-        or diag 'got distmeta: ', explain $tzil->distmeta;
+    ) or diag 'got distmeta: ', explain $tzil->distmeta;
 
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
@@ -142,8 +141,7 @@ use List::Util 'first';
             })
         }),
         'config is properly included in metadata',
-    )
-        or diag 'got distmeta: ', explain $tzil->distmeta;
+    ) or diag 'got distmeta: ', explain $tzil->distmeta;
 
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;

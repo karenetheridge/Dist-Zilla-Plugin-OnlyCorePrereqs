@@ -27,6 +27,7 @@ my @checked;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     (map {
                         my $type = $_;
                         map {
@@ -57,6 +58,31 @@ my @checked;
         'correct phases and types are checked by default',
     );
 
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => bag('configure', 'build', 'runtime', 'test'),
+                                starting_version => 'to be determined from perl prereq',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
+
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
@@ -69,6 +95,7 @@ undef @checked;
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
+                    [ MetaConfig => ],
                     (map {
                         my $type = $_;
                         map {
@@ -95,6 +122,31 @@ undef @checked;
         ) ],
         '"phase" option can be customized',
     );
+
+    cmp_deeply(
+        $tzil->distmeta,
+        superhashof({
+            x_Dist_Zilla => superhashof({
+                plugins => supersetof(
+                    {
+                        class => 'Dist::Zilla::Plugin::OnlyCorePrereqs',
+                        config => {
+                            'Dist::Zilla::Plugin::OnlyCorePrereqs' => {
+                                skips => [],
+                                phases => [ 'develop' ],
+                                starting_version => 'to be determined from perl prereq',
+                                deprecated_ok => 0,
+                                check_dual_life_versions => 1,
+                            },
+                        },
+                        name => 'OnlyCorePrereqs',
+                        version => ignore,
+                    },
+                ),
+            })
+        }),
+        'config is properly included in metadata',
+    ) or diag 'got dist metadata: ', explain $tzil->distmeta;
 
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
