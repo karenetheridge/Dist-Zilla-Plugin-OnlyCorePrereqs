@@ -56,7 +56,7 @@ use Path::Tiny;
     # in 5.019000, feature has been upgraded from version 1.32 to 1.33.
     # feature is not dual-lifed, so we know the user hasn't upgraded.
 
-    if ($^V < 5.019000)
+    if ($] < 5.019000)
     {
         $tzil->chrome->logger->set_debug(1);
 
@@ -71,7 +71,7 @@ use Path::Tiny;
 
         cmp_deeply(
             $tzil->log_messages,
-            supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl ${\ version->parse($^V)->numify } only has \E\d\.\d+/)),
+            supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $] only has \E\d\.\d+/)),
             'version of perl is too old for feature 1.33 (need 5.019) - check fails',
         ) or do {
             # we have some odd failing reports:

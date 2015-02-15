@@ -83,7 +83,7 @@ around BUILDARGS => sub
 
     if (($args->{starting_version} // '') eq 'current')
     {
-        $args->{starting_version} = $^V;
+        $args->{starting_version} = $];
     }
     elsif (($args->{starting_version} // '') eq 'latest')
     {
@@ -153,7 +153,7 @@ sub after_build
 
                 if ($has < $wanted)
                 {
-                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version->numify, $has ];
+                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version, $has ];
                     next;
                 }
             }
