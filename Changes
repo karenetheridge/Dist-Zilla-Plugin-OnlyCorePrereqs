@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - dump 'starting_version' field into meta config data properly
 
 0.021     2015-02-15 22:51:47Z
           - new 'also_disallow' option, for prohibiting some core modules

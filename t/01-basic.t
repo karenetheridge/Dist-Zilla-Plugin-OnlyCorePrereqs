@@ -165,7 +165,7 @@ use Test::Deep;
                                 skips => [],
                                 also_disallow => [],
                                 phases => [ 'runtime' ],
-                                starting_version => str('5.010'),
+                                starting_version => '5.010',
                                 deprecated_ok => 0,
                                 check_dual_life_versions => 1,
                             },
