@@ -170,7 +170,7 @@ sub after_build
 
             if ($self->check_dual_life_versions or not $self->_is_dual($prereq))
             {
-                my $has = $Module::CoreList::version{$self->starting_version->numify}{$prereq};
+                my $has = $Module::CoreList::version{$self->starting_version->stringify}{$prereq};
                 $has = version->parse($has);    # version.pm XS hates tie() - RT#87983
                 my $wanted = version->parse($prereqs->{$phase}{requires}{$prereq});
 
