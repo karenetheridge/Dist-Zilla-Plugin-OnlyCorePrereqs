@@ -5,7 +5,7 @@ package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # KEYWORDS: plugin distribution metadata prerequisites core
 # vim: set ts=8 sw=4 tw=78 et :
 
-our $VERSION = '0.022';
+our $VERSION = '0.023';
 
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
