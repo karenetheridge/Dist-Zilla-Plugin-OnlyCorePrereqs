@@ -96,13 +96,12 @@ around BUILDARGS => sub
 
     if (($args->{starting_version} // '') eq 'current')
     {
-        $args->{starting_version} = $];
+        $args->{starting_version} = "$]";   # preserve trailing zeros
     }
     elsif (($args->{starting_version} // '') eq 'latest')
     {
-        # needs to be two clauses because of version.pm: RT#87983
         my $latest = (reverse sort keys %Module::CoreList::released)[0];
-        $args->{starting_version} = version->parse($latest);
+        $args->{starting_version} = "$latest";  # preserve trailing zeros
     }
 
     $args;

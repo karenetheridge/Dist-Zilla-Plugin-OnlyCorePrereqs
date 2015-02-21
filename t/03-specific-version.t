@@ -137,7 +137,7 @@ use Path::Tiny;
                                 skips => [],
                                 also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
-                                starting_version => re(qr/[\d.]+/),
+                                starting_version => $],
                                 deprecated_ok => 0,
                                 check_dual_life_versions => 1,
                             },
@@ -189,6 +189,8 @@ SKIP:
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
 
+    my ($latest_version) = reverse sort keys %Module::CoreList::released;
+
     cmp_deeply(
         $tzil->distmeta,
         superhashof({
@@ -201,7 +203,7 @@ SKIP:
                                 skips => [],
                                 also_disallow => [],
                                 phases => bag('configure', 'build', 'runtime', 'test'),
-                                starting_version => re(qr/[\d.]+/),
+                                starting_version => $latest_version,
                                 deprecated_ok => 0,
                                 check_dual_life_versions => 1,
                             },
