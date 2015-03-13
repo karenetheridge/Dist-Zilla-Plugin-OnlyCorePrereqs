@@ -23,6 +23,8 @@ use Test::DZil;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     # normally we'd see this:
     # [OnlyCorePrereqs] detected a runtime requires dependency on HTTP::Tiny
     # 0.025: perl 5.014 only has 0.012

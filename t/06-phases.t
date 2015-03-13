@@ -41,6 +41,8 @@ my @checked;
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     is(
         exception { $tzil->build },
         undef,
@@ -109,6 +111,8 @@ undef @checked;
             },
         },
     );
+
+    $tzil->chrome->logger->set_debug(1);
 
     is(
         exception { $tzil->build },

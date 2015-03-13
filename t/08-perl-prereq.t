@@ -99,6 +99,8 @@ use List::Util 'first';
         },
     );
 
+    $tzil->chrome->logger->set_debug(1);
+
     # normally we'd see this:
     # [OnlyCorePrereqs] detected a runtime requires dependency that was not added to core until 5.006: warnings
     is(
