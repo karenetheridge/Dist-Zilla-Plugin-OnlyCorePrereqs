@@ -316,13 +316,9 @@ prerequisites, or C<5.005>.
 
 There are two special values supported (available since version 0.003):
 
-=begin :list
-
+=for :list
 =item * C<current> - indicates the version of Perl that you are currently running with
-
 =item * C<latest> - indicates the most recent (stable or development) release of Perl
-
-=end :list
 
 (Note: if you wish to check against B<all> changes in core up to the very
 latest Perl release, you should upgrade your L<Module::CoreList> installation.
