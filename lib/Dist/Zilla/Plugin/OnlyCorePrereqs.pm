@@ -127,6 +127,9 @@ sub after_build
 {
     my $self = shift;
 
+    $self->log([ 'WARNING: Module::CoreList does not have information about this perl version of %s', $] ])
+        if not exists $Module::CoreList::version{$]};
+
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
     # we build up a lists of all errors found

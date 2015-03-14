@@ -92,6 +92,9 @@ use Path::Tiny;
         'build aborted'
     );
 
+    $TODO = 'Module::CoreList does not have information about this perl version of ' . $]
+        if not exists $Module::CoreList::version{$]};
+
     # this dist requires 5.010, so we know feature is available at *some*
     # version (it first appeared in 5.9.3)
 

@@ -2,6 +2,8 @@ Revision history for {{$dist->name}}
 
 {{$NEXT}}
           - fix test failures (new in 0.021) on *.0 perl releases
+          - give runtime warnings for, and avoid test failures in, blead perl
+            (dev builds that represent an upcoming release of perl)
 
 0.022     2015-02-20 02:55:52Z
           - dump 'starting_version' field into meta config data properly
