@@ -74,56 +74,39 @@ use Path::Tiny;
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
                     [ MetaConfig => ],
-                    [ Prereqs => RuntimeRequires => { 'feature' => '1.33' } ],
+                    [ Prereqs => RuntimeRequires => { 'feature' => '500.0' } ],
                     [ OnlyCorePrereqs => { starting_version => 'current' } ],
                 ),
             },
         },
     );
 
-    # in 5.019000, feature has been upgraded from version 1.32 to 1.33.
+    # version 500.0 does not exist in any known version of perl.
     # feature is not dual-lifed, so we know the user hasn't upgraded.
 
-    if ($] < 5.019000)
-    {
-        $tzil->chrome->logger->set_debug(1);
+    $tzil->chrome->logger->set_debug(1);
 
-        like(
-            exception { $tzil->build },
-            qr/\Q[OnlyCorePrereqs] aborting\E/,
-            'build aborted'
-        );
+    like(
+        exception { $tzil->build },
+        qr/\Q[OnlyCorePrereqs] aborting\E/,
+        'build aborted'
+    );
 
-        # this dist requires 5.010, so we know feature is available at *some*
-        # version (it first appeared in 5.9.3)
+    # this dist requires 5.010, so we know feature is available at *some*
+    # version (it first appeared in 5.9.3)
 
-        cmp_deeply(
-            $tzil->log_messages,
-            supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 1.33: perl $] only has \E\d\.\d+/)),
-            'version of perl is too old for feature 1.33 (need 5.019) - check fails',
-        ) or do {
-            # we have some odd failing reports:
-            # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
-            # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
-            diag 'saw log messages: ', explain $tzil->log_messages;
-            my $version = version->parse($^V)->numify;
-            diag('corelist data for feature at version ', $version, ': ', $Module::CoreList::version{$version}{feature});
-        };
-    }
-    else
-    {
-        is(
-            exception { $tzil->build },
-            undef,
-            'build is not aborted',
-        );
-
-        ok(
-            (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
-            'version of perl is new enough for feature 1.33 (need 5.019) - check succeeds',
-        )
-        or diag 'saw log messages: ', explain $tzil->log_messages;
-    }
+    cmp_deeply(
+        $tzil->log_messages,
+        supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 500.0: perl $] only has \E\d\.\d+/)),
+        'version of perl is too old for feature 500.0 - check fails',
+    ) or do {
+        # we have some odd failing reports:
+        # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
+        # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
+        diag 'saw log messages: ', explain $tzil->log_messages;
+        my $version = version->parse($^V)->numify;
+        diag('corelist data for feature at version ', $version, ': ', $Module::CoreList::version{$version}{feature});
+    };
 
     cmp_deeply(
         $tzil->distmeta,
