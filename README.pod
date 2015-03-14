@@ -8,7 +8,7 @@ Dist::Zilla::Plugin::OnlyCorePrereqs - Check that no prerequisites are declared 
 
 =head1 VERSION
 
-version 0.022
+version 0.023
 
 =head1 SYNOPSIS
 
@@ -54,7 +54,6 @@ There are two special values supported (available since version 0.003):
 =over 4
 
 =item * C<current> - indicates the version of Perl that you are currently running with
-
 =item * C<latest> - indicates the most recent (stable or development) release of Perl
 
 =back
