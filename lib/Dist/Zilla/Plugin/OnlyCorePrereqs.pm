@@ -52,6 +52,19 @@ has starting_version => (
     },
 );
 
+has ending_version => (
+    is => 'ro',
+    isa => do {
+        my $version = subtype as class_type('version');
+        coerce $version, from LaxVersionStr, via { version->parse($_) };
+        $version;
+    },
+    coerce => 1,
+    predicate => '_has_ending_version',
+    lazy => 1,
+    default => sub { shift->_latest_perl },
+);
+
 has deprecated_ok => (
     is => 'ro', isa => 'Bool',
     default => 0,
@@ -100,8 +113,7 @@ around BUILDARGS => sub
     }
     elsif (($args->{starting_version} // '') eq 'latest')
     {
-        my $latest = (reverse sort keys %Module::CoreList::released)[0];
-        $args->{starting_version} = "$latest";  # preserve trailing zeros
+        $args->{starting_version} = $self->_latest_perl;
     }
 
     $args;
@@ -114,10 +126,17 @@ around dump_config => sub
 
     $config->{+__PACKAGE__} = {
         ( map { $_ => [ $self->$_ ] } qw(phases skips also_disallow)),
+<<<<<<< Updated upstream
         ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions)),
         ( starting_version => ($self->_has_starting_version
                 ? $self->starting_version->numify
                 : 'to be determined from perl prereq')),
+=======
+        ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions ending_version)),
+        # we depend on nothing calling starting_version's builder before we
+        # have a chance to call its predicate
+        ( starting_version => ($self->_has_starting_version ? $self->starting_version : 'to be determined from perl prereq')),
+>>>>>>> Stashed changes
     };
 
     return $config;
@@ -126,6 +145,8 @@ around dump_config => sub
 sub after_build
 {
     my $self = shift;
+
+# die if $self->starting_version > $self->ending_version
 
     my $prereqs = $self->zilla->distmeta->{prereqs};
 
@@ -183,7 +204,10 @@ sub after_build
             if (not $self->deprecated_ok)
             {
                 my $deprecated_in = Module::CoreList->deprecated_in($prereq);
-                if ($deprecated_in)
+                # we only check the ending version rather than the entire
+                # range because there is no precedent for a module leaving
+                # core and then returning again.
+                if ($deprecated_in and $deprecated_in <= $self->ending_version)
                 {
                     push @deprecated, [$phase, $deprecated_in, $prereq];
                     next;
@@ -270,6 +294,13 @@ sub _indexed_dist
     return CPAN::DistnameInfo->new($payload->[0]{distfile})->dist;
 }
 
+sub _latest_perl
+{
+    # needs to be two clauses because of version.pm: RT#87983
+    my $latest = (reverse sort keys %Module::CoreList::released)[0];
+    $latest = version->parse($latest);
+}
+
 __PACKAGE__->meta->make_immutable;
 __END__
 
@@ -329,6 +360,12 @@ latest Perl release, you should upgrade your L<Module::CoreList> installation.
 You can guarantee you are always running the latest version with
 L<Dist::Zilla::Plugin::PromptIfStale>. L<Module::CoreList> is also the mechanism used for
 determining the version of the latest Perl release.)
+
+=head2 C<ending_version>
+
+Indicates the last Perl version that should be checked against (only relevant
+for modules which have since been deprecated from core). Defaults to the
+latest Perl version that is known about by L<Module::CoreList>.
 
 =head2 C<deprecated_ok>
 
