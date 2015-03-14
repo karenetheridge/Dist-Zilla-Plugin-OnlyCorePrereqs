@@ -100,9 +100,6 @@ use Path::Tiny;
         supersetof(re(qr/\Q[OnlyCorePrereqs] detected a runtime requires dependency on feature 500.0: perl $] only has \E\d\.\d+/)),
         'version of perl is too old for feature 500.0 - check fails',
     ) or do {
-        # we have some odd failing reports:
-        # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
-        # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
         diag 'saw log messages: ', explain $tzil->log_messages;
         diag('corelist data for feature at version ' . $] . ': ', $Module::CoreList::version{$]}{feature});
     };
