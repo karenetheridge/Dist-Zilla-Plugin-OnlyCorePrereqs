@@ -116,7 +116,7 @@ around dump_config => sub
         ( map { $_ => [ $self->$_ ] } qw(phases skips also_disallow)),
         ( map { $_ => $self->$_ } qw(deprecated_ok check_dual_life_versions)),
         ( starting_version => ($self->_has_starting_version
-                ? $self->starting_version->numify
+                ? $self->starting_version->stringify
                 : 'to be determined from perl prereq')),
     };
 
@@ -175,7 +175,7 @@ sub after_build
 
                 if ($has < $wanted)
                 {
-                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version->numify, $has ];
+                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version->stringify, $has ];
                     next;
                 }
             }

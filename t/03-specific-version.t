@@ -104,8 +104,7 @@ use Path::Tiny;
         # http://www.cpantesters.org/cpan/report/e7624cf8-1bca-11e3-8778-8bb49a6ffe4e
         # http://cpantesters.org/cpan/report/5c8ff79f-6e70-1014-86e8-8333ec4105d1
         diag 'saw log messages: ', explain $tzil->log_messages;
-        my $version = version->parse($^V)->numify;
-        diag('corelist data for feature at version ', $version, ': ', $Module::CoreList::version{$version}{feature});
+        diag('corelist data for feature at version ' . $] . ': ', $Module::CoreList::version{$]}{feature});
     };
 
     cmp_deeply(
