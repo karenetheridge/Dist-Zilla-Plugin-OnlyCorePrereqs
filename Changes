@@ -1,6 +1,6 @@
-Revision history for {{$dist->name}}
+Revision history for Dist-Zilla-Plugin-OnlyCorePrereqs
 
-{{$NEXT}}
+0.024     2015-03-19 07:04:15Z
           - fix test failures when Module::CoreList doesn't have information
             about the current version of perl
 
