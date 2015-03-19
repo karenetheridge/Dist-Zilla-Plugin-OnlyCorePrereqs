@@ -8,6 +8,7 @@ use Test::Deep;
 use Test::DZil;
 use Path::Tiny;
 use Test::Deep;
+use Module::CoreList;
 
 {
     my $tzil = Builder->from_config(
@@ -30,6 +31,9 @@ use Test::Deep;
         qr/\Q[OnlyCorePrereqs] aborting build due to invalid dependencies\E/,
         'build aborted',
     );
+
+    $TODO = 'Module::CoreList does not have information about this perl version of ' . $]
+        if not exists $Module::CoreList::version{$]};
 
     cmp_deeply(
         $tzil->log_messages,

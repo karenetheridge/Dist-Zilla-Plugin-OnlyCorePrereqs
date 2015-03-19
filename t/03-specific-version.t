@@ -9,6 +9,9 @@ use Test::DZil;
 use Module::CoreList;
 use Path::Tiny;
 
+$TODO = 'Module::CoreList does not have information about this perl version of ' . $]
+    if not exists $Module::CoreList::version{$]};
+
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/does_not_exist' },
@@ -92,9 +95,6 @@ use Path::Tiny;
         'build aborted'
     );
 
-    $TODO = 'Module::CoreList does not have information about this perl version of ' . $]
-        if not exists $Module::CoreList::version{$]};
-
     # this dist requires 5.010, so we know feature is available at *some*
     # version (it first appeared in 5.9.3)
 
@@ -104,7 +104,8 @@ use Path::Tiny;
         'version of perl is too old for feature 500.0 - check fails',
     ) or do {
         diag 'saw log messages: ', explain $tzil->log_messages;
-        diag('corelist data for feature at version ' . $] . ': ', $Module::CoreList::version{$]}{feature});
+        diag('corelist data for feature at version ' . $] . ': ',
+            (exists $Module::CoreList::version{$]} ? $Module::CoreList::version{$]}{feature} : 0));
     };
 
     cmp_deeply(

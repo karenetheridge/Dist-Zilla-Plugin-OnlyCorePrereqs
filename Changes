@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          - fix test failures when Module::CoreList doesn't have information
+            about the current version of perl
 
 0.023     2015-03-14 05:09:37Z
           - fix test failures (new in 0.021) on *.0 perl releases
