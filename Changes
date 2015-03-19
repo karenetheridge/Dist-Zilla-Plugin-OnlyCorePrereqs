@@ -1,4 +1,6 @@
-Revision history for Dist-Zilla-Plugin-OnlyCorePrereqs
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
 
 0.024     2015-03-19 07:04:15Z
           - fix test failures when Module::CoreList doesn't have information
