@@ -59,7 +59,7 @@ use Module::CoreList;
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -117,7 +117,7 @@ use Module::CoreList;
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })

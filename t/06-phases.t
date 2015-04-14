@@ -78,7 +78,7 @@ my @checked;
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -146,7 +146,7 @@ undef @checked;
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })

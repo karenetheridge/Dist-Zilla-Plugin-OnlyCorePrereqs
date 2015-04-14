@@ -90,7 +90,7 @@ version: 0.053
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -150,7 +150,7 @@ version: 0.053
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -211,7 +211,7 @@ version: 0.053
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -264,7 +264,7 @@ version: 0.053
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -318,7 +318,7 @@ version: 0.053
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })

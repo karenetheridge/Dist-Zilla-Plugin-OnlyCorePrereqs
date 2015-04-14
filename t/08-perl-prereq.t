@@ -69,7 +69,7 @@ use List::Util 'first';
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -139,7 +139,7 @@ use List::Util 'first';
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })

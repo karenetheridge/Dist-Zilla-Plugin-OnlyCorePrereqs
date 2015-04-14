@@ -52,7 +52,7 @@ cmp_deeply(
                         },
                     },
                     name => 'OnlyCorePrereqs',
-                    version => ignore,
+                    version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                 },
             ),
         })

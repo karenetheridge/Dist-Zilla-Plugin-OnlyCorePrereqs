@@ -58,7 +58,7 @@ $TODO = 'Module::CoreList does not have information about this perl version of '
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -126,7 +126,7 @@ $TODO = 'Module::CoreList does not have information about this perl version of '
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -192,7 +192,7 @@ SKIP:
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
@@ -244,7 +244,7 @@ SKIP:
                             },
                         },
                         name => 'OnlyCorePrereqs',
-                        version => ignore,
+                        version => Dist::Zilla::Plugin::OnlyCorePrereqs->VERSION,
                     },
                 ),
             })
