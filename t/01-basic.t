@@ -10,6 +10,14 @@ use Path::Tiny;
 use Test::Deep;
 use Module::CoreList;
 
+# diag uses todo_output if in_todo :/
+no warnings 'redefine';
+*::diag = sub {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my $tb = Test::Builder->new;
+    $tb->_print_comment($tb->failure_output, @_);
+};
+
 {
     my $tzil = Builder->from_config(
         { dist_root => 'does-not-exist' },
