@@ -118,6 +118,7 @@ around dump_config => sub
         ( starting_version => ($self->_has_starting_version
                 ? $self->starting_version->stringify
                 : 'to be determined from perl prereq')),
+        blessed($self) ne __PACKAGE__ ? ( version => $VERSION ) : (),
     };
 
     return $config;
