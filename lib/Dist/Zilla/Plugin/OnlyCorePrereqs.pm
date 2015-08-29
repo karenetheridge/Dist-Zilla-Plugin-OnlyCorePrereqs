@@ -3,7 +3,7 @@ use warnings;
 package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # ABSTRACT: Check that no prerequisites are declared that are not part of core
 # KEYWORDS: plugin distribution metadata prerequisites core
-# vim: set ts=8 sts=4 sw=4 tw=78 et :
+# vim: set ts=8 sts=4 sw=4 tw=115 et :
 
 our $VERSION = '0.025';
 
