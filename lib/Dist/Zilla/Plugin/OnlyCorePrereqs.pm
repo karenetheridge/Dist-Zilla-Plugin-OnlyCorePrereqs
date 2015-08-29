@@ -13,7 +13,7 @@ use Moose::Util::TypeConstraints;
 use Module::CoreList 5.20150214;
 use MooseX::Types::Perl 0.101340 'LaxVersionStr';
 use version;
-use Encode;
+use Encode ();
 use HTTP::Tiny;
 use YAML::Tiny;
 use CPAN::DistnameInfo;
