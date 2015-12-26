@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More 0.88;
 
 plan skip_all => 'the check_module_versions option has been removed';
 
