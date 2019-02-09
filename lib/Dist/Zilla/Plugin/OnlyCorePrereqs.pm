@@ -334,7 +334,7 @@ determining the version of the latest Perl release.)
 =head2 C<deprecated_ok>
 
 A boolean flag indicating whether it is considered acceptable to depend on a
-deprecated module. Defaults to 0.
+deprecated module (that is, has been removed from core). Defaults to 0.
 
 =head2 C<check_dual_life_versions>
 
@@ -343,7 +343,7 @@ Available since version 0.007.
 =for stopwords lifed blead
 
 A boolean flag indicating whether the specific module version available in the
-C<starting_version> of perl be checked (even) if the module is dual-lifed.
+C<starting_version> of perl should be checked (even) if the module is dual-lifed.
 Defaults to 1.
 
 This is useful to B<unset> if you don't want to fail if you require a core module
