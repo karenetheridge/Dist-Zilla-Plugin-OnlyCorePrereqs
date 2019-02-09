@@ -102,7 +102,7 @@ no warnings 'redefine';
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
+        (!grep /\[OnlyCorePrereqs\]/, grep !/\[OnlyCorePrereqs\] checking /, @{$tzil->log_messages}),
         'Switch has been deprecated, but that\'s ok!',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;

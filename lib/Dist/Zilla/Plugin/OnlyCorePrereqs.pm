@@ -42,7 +42,7 @@ has starting_version => (
         my $self = shift;
 
         my $prereqs = $self->zilla->distmeta->{prereqs};
-        my @perl_prereqs = grep { defined } map { $prereqs->{$_}{requires}{perl} } keys %$prereqs;
+        my @perl_prereqs = grep defined, map $prereqs->{$_}{requires}{perl}, keys %$prereqs;
 
         return '5.005' if not @perl_prereqs;
 
@@ -113,8 +113,8 @@ around dump_config => sub
     my $config = $self->$orig;
 
     $config->{+__PACKAGE__} = {
-        ( map { $_ => [ sort $self->$_ ] } qw(phases skips also_disallow)),
-        ( map { $_ => ($self->$_ ? 1 : 0) } qw(deprecated_ok check_dual_life_versions)),
+        ( map +($_ => [ sort $self->$_ ]), qw(phases skips also_disallow)),
+        ( map +($_ => ($self->$_ ? 1 : 0)), qw(deprecated_ok check_dual_life_versions)),
         ( starting_version => ($self->_has_starting_version
                 ? $self->starting_version->stringify
                 : 'to be determined from perl prereq')),
@@ -180,7 +180,7 @@ sub after_build
 
                 if ($has < $wanted)
                 {
-                    push @insufficient_version, [ map { "$_" } $phase, $prereq, $wanted, $self->starting_version->stringify, $has ];
+                    push @insufficient_version, [ map "$_", $phase, $prereq, $wanted, $self->starting_version->stringify, $has ];
                     next;
                 }
             }

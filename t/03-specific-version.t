@@ -175,7 +175,7 @@ SKIP:
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
+        (!grep /\[OnlyCorePrereqs\]/, grep !/\[OnlyCorePrereqs\] checking /, @{$tzil->log_messages}),
         'Carp is new enough in 5.019001 - check succeeds',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;
@@ -261,7 +261,7 @@ SKIP:
     ) or diag 'got dist metadata: ', explain $tzil->distmeta;
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } grep { !/\[OnlyCorePrereqs\] checking / } @{$tzil->log_messages}),
+        (!grep /\[OnlyCorePrereqs\]/, grep !/\[OnlyCorePrereqs\] checking /, @{$tzil->log_messages}),
         'File::stat is undef in 5.005, but good enough - check succeeds',
     )
     or diag 'saw log messages: ', explain $tzil->log_messages;

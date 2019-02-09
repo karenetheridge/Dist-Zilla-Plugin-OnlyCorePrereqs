@@ -161,7 +161,7 @@ no warnings 'redefine';
     );
 
     ok(
-        (!grep { /\[OnlyCorePrereqs\]/ } @{$tzil->log_messages}),
+        (!grep /\[OnlyCorePrereqs\]/, @{$tzil->log_messages}),
         'non-core modules are permitted in the test phase',
     ) or diag 'saw log messages: ', explain $tzil->log_messages;
 
