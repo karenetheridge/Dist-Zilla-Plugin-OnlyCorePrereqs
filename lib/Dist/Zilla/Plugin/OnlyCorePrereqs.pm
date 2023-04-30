@@ -232,6 +232,7 @@ sub _is_dual
     # 'no_index' entries in the last perl release were complete.
     # TODO: keep checking Module::CoreList for fixes.
     my $dist_name = $self->_indexed_dist($module);
+    return 1 if grep $module eq $_, qw(Config DynaLoader); # exists, but not in the index
     $self->log([ 'Warning: %s not indexed?!', $module ]), return undef if not defined $dist_name;
 
     $self->log_debug([ '%s is indexed in the %s dist', $module, $dist_name ]);
