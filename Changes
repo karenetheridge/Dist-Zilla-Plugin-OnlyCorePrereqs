@@ -1,6 +1,6 @@
 Revision history for Dist-Zilla-Plugin-OnlyCorePrereqs
 
-{{$NEXT}}
+0.025     2023-04-30 12:22:34Z
           - do not complain about Config or DynaLoader being missing in the
             index
 
