@@ -5,7 +5,7 @@ package Dist::Zilla::Plugin::OnlyCorePrereqs;
 # ABSTRACT: Check that no prerequisites are declared that are not part of core
 # KEYWORDS: plugin distribution metadata prerequisites core
 
-our $VERSION = '0.025';
+our $VERSION = '0.026';
 
 use Moose;
 with 'Dist::Zilla::Role::AfterBuild';
